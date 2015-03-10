@@ -1,0 +1,47 @@
+
+<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/flipper"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+   <RelativeLayout 
+       android:id="@+id/layout_front_card"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:background="#ED4747" 
+       android:gravity="center"
+       android:layout_gravity="center">
+    <TextView
+        android:id="@+id/tv_word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20pt"
+        android:textColor="#FFFFFF"/>
+    <!-- 
+    <ImageButton 
+	    android:id="@+id/button_refresh"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_centerInParent="true"
+	    android:src="@drawable/ic_action_refresh"
+	    android:contentDescription="@string/str_flash_card_retry_button_decs"
+	    android:visibility="invisible"/>
+	     -->
+  </RelativeLayout>
+  <RelativeLayout	
+       android:id="@+id/layout_back_card"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:background="#229A22"
+       android:gravity="center"
+       android:layout_gravity="center" >
+	<TextView 
+	    android:id="@+id/tv_def"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginRight="10dp"
+	    android:textSize="12pt"
+	    android:textColor="#FFFFFF"/>
+   </RelativeLayout>
+</ViewFlipper>
+

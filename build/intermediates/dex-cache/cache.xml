@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\AndroidDev\VocabNote\app\libs\nineoldandroids-2.4.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="59f19e43354d32de831379c23ce03bb259a4c2b7">
+        <dex dex="D:\AndroidDev\VocabNote\app\build\intermediates\pre-dexed\debug\nineoldandroids-2.4.0-426e860c7c75f0a5b1311da5d171d20e0a6944f9.jar" />
+    </item>
+    <item
+        jar="D:\adt-bundle-windows-x86-20140702\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.2\support-annotations-21.0.2.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="99373741f99a0556ee293c41e8faa1ca3ae8a4e6">
+        <dex dex="D:\AndroidDev\VocabNote\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.2-bd05f1cab1e8a5ca5b6413a560a03d4b83b5d490.jar" />
+    </item>
+    <item
+        jar="D:\AndroidDev\VocabNote\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.2\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="d1bf02de1c56d942e7a9d093b8610ba1ef4128e3">
+        <dex dex="D:\AndroidDev\VocabNote\app\build\intermediates\pre-dexed\debug\classes-c8158e507492cdeadcf23ccd9a7067f0a1821b6e.jar" />
+    </item>
+    <item
+        jar="D:\AndroidDev\VocabNote\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.2\libs\internal_impl-21.0.2.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="962e8b12569c56dbdcf8367eb4eac8bb129cd18f">
+        <dex dex="D:\AndroidDev\VocabNote\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.2-217f0d5b01f0a76cc746befadb412d60ea8f0e63.jar" />
+    </item>
+    <item
+        jar="D:\AndroidDev\VocabNote\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.2\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="7ae2d38807a43b2f2185ff4089a92c790b579e54">
+        <dex dex="D:\AndroidDev\VocabNote\app\build\intermediates\pre-dexed\debug\classes-d75bea5697c8634bb5e4aa7bdb9b18a12a007618.jar" />
+    </item>
+    <item
+        jar="D:\AndroidDev\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\6.1.71\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="0f6d5c1ef2e982c3b7858408e3df389cf5d202da">
+        <dex dex="D:\AndroidDev\VocabNote\app\build\intermediates\pre-dexed\debug\classes-aeba97a24daf743a52e7de23a66fc7e775f42c5d.jar" />
+    </item>
+
+</items>

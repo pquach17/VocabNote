@@ -1,0 +1,11 @@
+
+    <menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:vocabnote="http://schemas.android.com/apk/res-auto">
+        
+        <item 
+            android:id="@+id/action_bar_btn_save"
+            android:title="@string/str_action_bar_save"
+            android:icon="@drawable/ic_action_accept"
+            vocabnote:showAsAction="ifRoom"/>
+      
+    </menu>
