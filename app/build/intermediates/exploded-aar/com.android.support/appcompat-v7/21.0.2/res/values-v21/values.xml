@@ -37,9 +37,9 @@
 
     <style name="Base.TextAppearance.AppCompat.Menu" parent="android:TextAppearance.Material.Menu" />
 
-    <style name="Base.TextAppearance.AppCompat.SearchResult.Subtitle" parent="@android:TextAppearance.Material.SearchResult.Subtitle"></style>
+    <style name="Base.TextAppearance.AppCompat.SearchResult.Subtitle" parent="@android:TextAppearance.Material.SearchResult.Subtitle"/>
 
-    <style name="Base.TextAppearance.AppCompat.SearchResult.Title" parent="@android:TextAppearance.Material.SearchResult.Title"></style>
+    <style name="Base.TextAppearance.AppCompat.SearchResult.Title" parent="@android:TextAppearance.Material.SearchResult.Title"/>
 
     <style name="Base.TextAppearance.AppCompat.Small" parent="android:TextAppearance.Material.Small" />
 

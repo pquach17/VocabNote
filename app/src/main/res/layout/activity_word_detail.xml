@@ -27,8 +27,16 @@
 	        android:textColor="#676767"
 	        android:textStyle="italic"
 	        android:id="@+id/tv_word_type"/>
-	    
-	 
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_word"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/speaking_icon"
+            android:background="@null"
+            android:contentDescription="@string/str_btn_pronounce"
+            android:id="@+id/btn_pronounce"/>
 	     
     </RelativeLayout>
     <TextView 

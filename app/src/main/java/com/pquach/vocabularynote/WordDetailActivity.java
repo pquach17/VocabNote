@@ -2,23 +2,31 @@ package com.pquach.vocabularynote;
 
 
 
-import com.pquach.vocabularynote.R;
-
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.os.AsyncTask;
+import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.*;
+import android.os.Process;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.HashMap;
+import java.util.Locale;
 
 public class WordDetailActivity extends ActionBarActivity {
 	
@@ -29,13 +37,21 @@ public class WordDetailActivity extends ActionBarActivity {
 	TextView tv_example  ;
 	TextView label_definition;
 	TextView label_example;
+    ImageButton ib_pronounce;
     TextToSpeech tts;
+    final static int MY_DATA_CHECK_CODE = 2;
+    private boolean ttsAvailable;
+    private int languageAvailable;
+    private boolean readyToSpeak = false;
+    final String ttsPackageName = "com.google.android.tts";
+    final String picoPackageName = "com.svox.pico";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_word_detail);
 		
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
 		// -----Enable navigation arrow on action bar-----
 			ActionBar actionBar = getSupportActionBar();
 			actionBar.setDisplayHomeAsUpEnabled(true);
@@ -47,15 +63,32 @@ public class WordDetailActivity extends ActionBarActivity {
 		Word word;
 		WordDataSource wordds = new WordDataSource(this);
 		word = wordds.getWord((int)mId);
-		if(mId != -1 && word != null){
-			// Get controls' reference
-			tv_word = (TextView) findViewById(R.id.tv_word);
-			tv_word_type = (TextView) findViewById(R.id.tv_word_type);
-			tv_definition = (TextView) findViewById(R.id.tv_definition);
-			tv_example = (TextView) findViewById(R.id.tv_example);
-			label_definition = (TextView) findViewById(R.id.label_definition);
-			label_example = (TextView) findViewById(R.id.label_example);
-			
+		if(mId != -1 && word != null) {
+            // Get controls' reference
+            tv_word = (TextView) findViewById(R.id.tv_word);
+            tv_word_type = (TextView) findViewById(R.id.tv_word_type);
+            tv_definition = (TextView) findViewById(R.id.tv_definition);
+            tv_example = (TextView) findViewById(R.id.tv_example);
+            label_definition = (TextView) findViewById(R.id.label_definition);
+            label_example = (TextView) findViewById(R.id.label_example);
+            ib_pronounce = (ImageButton) findViewById(R.id.btn_pronounce);
+            ib_pronounce.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!ttsAvailable) {
+                        try {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + ttsPackageName)));
+
+                        } catch (android.content.ActivityNotFoundException e) {
+                            // If no Play Store installed on device, bring user to Play Store website
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + ttsPackageName)));
+                        }
+                    }else{
+                        new LoadTtsTask().execute();
+                     }
+                }
+            });
+
 		   // Bind data into UI
 			tv_word.setText(word.getWord());
 			tv_word_type.setText(word.getType());
@@ -74,10 +107,23 @@ public class WordDetailActivity extends ActionBarActivity {
 		}
 		wordds.close();
 	}
-	
 
-	
-	@Override
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ttsAvailable = isTtsAvailable();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(tts!=null){
+            tts.stop();
+            tts.shutdown();
+        }
+    }
+
+    @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_word_detail_action, menu);
@@ -138,51 +184,91 @@ public class WordDetailActivity extends ActionBarActivity {
 		dlg.show();
 	}
 
-    private class LoadTtsTask extends AsyncTask<Void, Void, Void> implements TextToSpeech.OnInitListener{
+    private boolean isTtsAvailable(){
+        if(isPackageInstalled(getPackageManager(),ttsPackageName)){
+            return true;
+        }
+        return false;
+    }
 
-        final static int MY_DATA_CHECK_CODE = 2;
-        private boolean installed = false;
+    private boolean isPackageInstalled(PackageManager pm, String packageName){
+        try{
+            pm.getPackageInfo(packageName,0);
+        }catch(PackageManager.NameNotFoundException e){
+            return false;
+        }
+        return true;
+    }
+/*
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == MY_DATA_CHECK_CODE) {
+            if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                // success, create the TTS instance
+              // dataInstalled = true;
+                new LoadTtsTask().execute(tts);
+            } else {
+                // missing data, install it
+                Intent installIntent = new Intent();
+                installIntent.setAction(
+                TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                startActivity(installIntent);
+            }
+        }
+    }*/
+    private class LoadTtsTask extends AsyncTask<Void, Void, Void> {
+
+        private ProgressDialog pd;
         @Override
         protected void onPreExecute() {
-            // Check Tts's availability
-            Intent checkIntent = new Intent();
-            checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-            startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
+            Log.v("LoadTtsTask", "onPreExecute");
+            pd= new ProgressDialog(WordDetailActivity.this,ProgressDialog.STYLE_SPINNER);
+            pd.show();
         }
 
         @Override
         protected Void doInBackground(Void... params){
-            if(installed){
-                tts = new TextToSpeech(getApplicationContext(), this);
-            }
+            Log.v("LoadTtsTask", "doInBackground");
+            tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(int status) {
+                    if(status==TextToSpeech.SUCCESS) {
+                        Locale defaultLocale = Locale.getDefault();
+                        Locale locale = Locale.US;
+                        if (defaultLocale == Locale.CANADA) {
+                            locale = Locale.CANADA;
+                        }
+                        if (defaultLocale == Locale.UK) {
+                            locale = Locale.UK;
+                        }
+                        languageAvailable = tts.setLanguage(locale);
+                        tts.setSpeechRate((float) 0.8);
+                    }else{
+                        // Toast.makeText(getApplicationContext(), "Text-to-speech is not properly installed", Toast.LENGTH_LONG).show();
+                    }// end of else
+                }// end of onInit
+            });// end of TextToSpeech constructor
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result){
-
-        }
-
-        protected void onActivityResult(
-                int requestCode, int resultCode, Intent data) {
-            if (requestCode == MY_DATA_CHECK_CODE) {
-                if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
-                    // success, create the TTS instance
-                    //tts = new TextToSpeech(getApplicationContext(), this);
-                    installed = true;
-                } else {
-                    // missing data, install it
-                    Intent installIntent = new Intent();
-                    installIntent.setAction(
-                            TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-                    startActivity(installIntent);
-                }
+            if(pd.isShowing())
+                pd.dismiss();
+            if(languageAvailable == TextToSpeech.LANG_MISSING_DATA
+                    || languageAvailable == TextToSpeech.LANG_NOT_SUPPORTED) {
+                // missing data, install it
+                Intent installIntent = new Intent();
+                installIntent.setAction(
+                TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+                startActivity(installIntent);
+            }else {
+                tts.speak(tv_word.getText().toString(), TextToSpeech.QUEUE_FLUSH, null);
             }
+
+            Log.v("LoadTtsTask", "onPostExecute");
         }
 
-        @Override
-        public void onInit(int status) {
 
-        }
+
     }
 }
