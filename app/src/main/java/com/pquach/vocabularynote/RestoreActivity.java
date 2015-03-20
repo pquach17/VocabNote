@@ -22,6 +22,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveApi.MetadataBufferResult;
 import com.google.android.gms.drive.Metadata;
+import com.google.android.gms.drive.metadata.CustomPropertyKey;
 import com.google.android.gms.drive.query.Filters;
 import com.google.android.gms.drive.query.Query;
 import com.google.android.gms.drive.query.SearchableField;
@@ -110,9 +111,10 @@ public class RestoreActivity extends BaseGoogleDriveActivity {
             return;
         }
         // retrieve the results for the next page.
+        CustomPropertyKey customPropertyKey = new CustomPropertyKey("file", CustomPropertyKey.PRIVATE);
         Query query = new Query.Builder()
                 .addFilter(Filters.eq(SearchableField.TRASHED, Boolean.FALSE))
-                .addFilter(Filters.eq(SearchableField.MIME_TYPE, "text/plain"))
+                .addFilter(Filters.eq(customPropertyKey, "file"))
                 .setPageToken(mNextPageToken)
                 .build();
         Drive.DriveApi.query(getGoogleApiClient(), query)

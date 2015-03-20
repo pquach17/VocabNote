@@ -10,11 +10,11 @@ import com.google.android.gms.drive.DriveApi.DriveContentsResult;
 import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.drive.MetadataChangeSet;
 import com.google.android.gms.drive.OpenFileActivityBuilder;
-
-
+import com.google.android.gms.drive.metadata.CustomPropertyKey;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 import static android.content.IntentSender.*;
 
@@ -104,8 +104,10 @@ public class BackupActivity extends BaseGoogleDriveActivity{
                     Date backupDate = new Date();
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
                     String fileTitle = dateFormat.format(backupDate);
+                    CustomPropertyKey filePropertyKey = new CustomPropertyKey("file",CustomPropertyKey.PRIVATE);
                     MetadataChangeSet changeSetBuilder = new MetadataChangeSet.Builder()
                             .setMimeType("text/plain")
+                            .setCustomProperty(filePropertyKey,"file")
                             .setTitle(fileTitle+".vob").build();
                     IntentSender intentSender = Drive.DriveApi
                             .newCreateFileActivityBuilder()

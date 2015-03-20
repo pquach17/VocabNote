@@ -53,8 +53,8 @@ public class WordDetailActivity extends ActionBarActivity {
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 		// -----Enable navigation arrow on action bar-----
-			ActionBar actionBar = getSupportActionBar();
-			actionBar.setDisplayHomeAsUpEnabled(true);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
 			
 		//------Get word id from previous activity-----------
 		mId = getIntent().getLongExtra("id", -1); // id = -1 if there is no value passed to id from previous activity
@@ -83,9 +83,9 @@ public class WordDetailActivity extends ActionBarActivity {
                             // If no Play Store installed on device, bring user to Play Store website
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + ttsPackageName)));
                         }
-                    }else{
+                    }else {
                         new LoadTtsTask().execute();
-                     }
+                    }
                 }
             });
 
@@ -254,6 +254,7 @@ public class WordDetailActivity extends ActionBarActivity {
         protected void onPostExecute(Void result){
             if(pd.isShowing())
                 pd.dismiss();
+
             if(languageAvailable == TextToSpeech.LANG_MISSING_DATA
                     || languageAvailable == TextToSpeech.LANG_NOT_SUPPORTED) {
                 // missing data, install it

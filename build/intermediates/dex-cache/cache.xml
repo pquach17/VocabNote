@@ -2,32 +2,39 @@
 <items version="2" >
 
     <item
-        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.2\libs\internal_impl-21.0.2.jar"
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\7.0.0\classes.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="962e8b12569c56dbdcf8367eb4eac8bb129cd18f">
-        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.2-0e3a46e6545633d8c00773c92205c30620c97a58.jar" />
+        sha1="3c0b099f9de16b265ecd6122fcb603e7d0d29f90">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-e86fa09db1efd8a807d6390f2fb0da963fe34ca3.jar" />
     </item>
     <item
-        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.2\classes.jar"
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\7.0.0\classes.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="d1bf02de1c56d942e7a9d093b8610ba1ef4128e3">
-        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-3b5305577bf88467262cb1b50973b890165a44c2.jar" />
+        sha1="73ccb92b70112f2e463e415ef8d7275de7da6516">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-de1a4cf44628d112ec5d5c03b4a0241ccb31114d.jar" />
     </item>
     <item
-        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\6.1.71\classes.jar"
+        jar="C:\Users\SONY\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.0.0\support-annotations-22.0.0.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="0f6d5c1ef2e982c3b7858408e3df389cf5d202da">
-        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-4e4029e5f6668f31420aae7f6ab34431369975c8.jar" />
+        sha1="685d0b2c590447e85284ed84712cb363ba04eff8">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\support-annotations-22.0.0-da7f2683ae8e42cc5dece8b049c62f7a46b70966.jar" />
     </item>
     <item
-        jar="D:\Android Studio Projects\VocabNote\app\libs\nineoldandroids-2.4.0.jar"
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\7.0.0\classes.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="59f19e43354d32de831379c23ce03bb259a4c2b7">
-        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\nineoldandroids-2.4.0-a70f588a96466e8d50e57cb21d867b3d1cc5a1e0.jar" />
+        sha1="a08d65794b844d8e7540bf9a33859bf3b2482d7f">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-18cd7df469e4f65996a1c156dc262f025bddeeb8.jar" />
+    </item>
+    <item
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="ef5f051e7308febe289dc93c67c5f32785b4260a">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-e80cfc426928d323ee54717af67b16bbfba9b88e.jar" />
     </item>
     <item
         jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.2\classes.jar"
@@ -37,11 +44,130 @@
         <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-49075f5e6042cdb1d48b0c2d760fa880f086041e.jar" />
     </item>
     <item
-        jar="C:\Users\SONY\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.2\support-annotations-21.0.2.jar"
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\7.0.0\classes.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="99373741f99a0556ee293c41e8faa1ca3ae8a4e6">
-        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.2-dde0a2b65afd9f32a50999d99ea50fa8a2f1a077.jar" />
+        sha1="4cd0b093824b3228fffc21ea369b98d0b1db6566">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-650a77f57b644071c698e72fa22dd965c8196a0c.jar" />
+    </item>
+    <item
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-games\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="055783146ba9654a725442563be78cad303aad1f">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-607f066c206c4f356244fa4bc62ad7d9dcbad29a.jar" />
+    </item>
+    <item
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="e3d791b42eaa90416cd0b2d2e608092794a3baa4">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-fdf5e87f860e32bb43900d2149e61be4bb46bb83.jar" />
+    </item>
+    <item
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="41b3870cbe5fa546d8095b5b89d42cb69f3dd175">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-4cf35768cd4b6819e18a279c6fc333ed366a55a1.jar" />
+    </item>
+    <item
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="9224bc4c54ba95147c7eabd874573763c07cb6be">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-43e30a0e7eea247f358b55620cb2c1741a245227.jar" />
+    </item>
+    <item
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="1c5a76debf0c2857ccad422c4a80ed785982f8df">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-a29cbbf58bac0cc12c25aafbb83b24156b24dc83.jar" />
+    </item>
+    <item
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="17f8750d5c0749e44dd7c54aa390d9c937803825">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-eb0719ca004aec3023c3db90b55c9d886026b426.jar" />
+    </item>
+    <item
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="29fd6d3794b71491c2789708cd8d03c71feb8954">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-b1d5bb945cf358010b7c748eb9598e5366e55f3c.jar" />
+    </item>
+    <item
+        jar="D:\Android Studio Projects\VocabNote\app\libs\nineoldandroids-2.4.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="59f19e43354d32de831379c23ce03bb259a4c2b7">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\nineoldandroids-2.4.0-a70f588a96466e8d50e57cb21d867b3d1cc5a1e0.jar" />
+    </item>
+    <item
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="fb04b12526b0073c7fb1ebb70c5842d82ee95596">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-f569e54f7667d5ffa3edb7937a4958b1f881c7c5.jar" />
+    </item>
+    <item
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="4c93d99d454c975536bbe3b42283eee847f03ea3">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-bdafb6463ebb529417d55c0f0cacba2703e6ba60.jar" />
+    </item>
+    <item
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\libs\internal_impl-22.0.0.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="b5b92f469d515a13d778900f6d50c03d12f35504">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\internal_impl-22.0.0-9bb4cc2cd5974daea2d283c053cd65e0cd380114.jar" />
+    </item>
+    <item
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="3033cc3a2c68dff3e5b646d6d084bdbdf7d00b25">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-a950dc263515dd18a822170f130e28618f355561.jar" />
+    </item>
+    <item
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-safetynet\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="c976518693e89ad44fbfccfc654941eaec198d08">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-ed76fd2488466a056b7235bb92a0bad00f6ebbdb.jar" />
+    </item>
+    <item
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="0e8228b4bc69c6a2c8d7c18498a77e53417d2574">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-4cc6e2c0223d876598b0bad5570241d342459081.jar" />
+    </item>
+    <item
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appstate\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="7ff613bf78ab057293892fdbd4169eda899c89b9">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-0565b485a61f16a5966b21f0c12f03c8f16c2e7a.jar" />
+    </item>
+    <item
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="4e86306289ace4aa0cfec44a05ed2b410d36989d">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-5d592a310e4ead4fb9919418b623a97dedee94b0.jar" />
+    </item>
+    <item
+        jar="D:\Android Studio Projects\VocabNote\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\7.0.0\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="a96b762bde4139de855735f175ec4d17dca55a6d">
+        <dex dex="D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-1b0d783127de51a0359e512864bb98cdcfdbd5dc.jar" />
     </item>
 
 </items>
