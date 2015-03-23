@@ -34,7 +34,7 @@ public class BackupActivity extends BaseGoogleDriveActivity{
     /**
      * Request code for auto Google Play Services error resolution.
      */
-    protected static final int REQUEST_CODE_CREATOR = 1;
+    protected static final int REQUEST_CODE_CREATOR = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,7 @@ public class BackupActivity extends BaseGoogleDriveActivity{
                 if (resultCode == RESULT_OK) {
                     DriveId driveId = (DriveId) data.getParcelableExtra(
                             OpenFileActivityBuilder.EXTRA_RESPONSE_DRIVE_ID);
-                    showMessage("File created with ID: " + driveId);
+                    showMessage("Data is successfully backed up");
                 }
                 finish();
                 break;

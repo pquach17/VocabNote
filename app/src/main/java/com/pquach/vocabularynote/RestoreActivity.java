@@ -14,19 +14,32 @@
 
 
 package com.pquach.vocabularynote;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.drive.Drive;
+import com.google.android.gms.drive.DriveApi.DriveContentsResult;
+import com.google.android.gms.drive.DriveApi.DriveIdResult;
 import com.google.android.gms.drive.DriveApi.MetadataBufferResult;
+import com.google.android.gms.drive.DriveContents;
+import com.google.android.gms.drive.DriveFile;
+import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.drive.Metadata;
 import com.google.android.gms.drive.metadata.CustomPropertyKey;
 import com.google.android.gms.drive.query.Filters;
 import com.google.android.gms.drive.query.Query;
 import com.google.android.gms.drive.query.SearchableField;
 import com.google.android.gms.drive.widget.DataBufferAdapter;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 
 public class RestoreActivity extends BaseGoogleDriveActivity {
@@ -73,6 +86,14 @@ public class RestoreActivity extends BaseGoogleDriveActivity {
             }
         });
 
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               Metadata metadata = mResultsAdapter.getItem(position);
+               Drive.DriveApi.fetchDriveId(getGoogleApiClient(),metadata.getDriveId().getResourceId())
+                       .setResultCallback(idCallback);
+            }
+        });
 
     }
 
@@ -138,5 +159,54 @@ public class RestoreActivity extends BaseGoogleDriveActivity {
                     mHasMore = mNextPageToken != null;
                 }
             };
+
+    private final ResultCallback<DriveIdResult> idCallback = new ResultCallback<DriveIdResult>() {
+        @Override
+        public void onResult(DriveIdResult result) {
+            new RetrieveDriveFileContentsAsyncTask(
+                    getBaseContext()).execute(result.getDriveId());
+        }
+    };
+
+    private final class RetrieveDriveFileContentsAsyncTask
+            extends ApiClientAsyncTask<DriveId, Boolean, Boolean> {
+
+        public RetrieveDriveFileContentsAsyncTask(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected Boolean doInBackgroundConnected(DriveId... params) {
+
+            DriveFile file = Drive.DriveApi.getFile(getGoogleApiClient(), params[0]);
+            DriveContentsResult driveContentsResult =
+                    file.open(getGoogleApiClient(), DriveFile.MODE_READ_ONLY, null).await();
+            if (!driveContentsResult.getStatus().isSuccess()) {
+                return false;
+            }
+            DriveContents driveContents = driveContentsResult.getDriveContents();
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(driveContents.getInputStream()));
+            FileProcessor fileProcessor = new FileProcessor(RestoreActivity.this);
+            Boolean result = fileProcessor.importData(reader);
+
+            driveContents.discard(getGoogleApiClient());
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (!result) {
+                showMessage("Error while reading from the file");
+                return;
+            }
+            Intent wordListIntent = new Intent();
+            wordListIntent.setClass(getBaseContext(),MainActivity.class);
+            startActivity(wordListIntent);
+            finish();
+        }
+    }
+
 }
 

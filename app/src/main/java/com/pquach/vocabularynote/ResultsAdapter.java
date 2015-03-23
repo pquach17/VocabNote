@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.Metadata;
 import com.google.android.gms.drive.widget.DataBufferAdapter;
 
@@ -35,9 +36,11 @@ public class ResultsAdapter extends DataBufferAdapter<Metadata> {
                     android.R.layout.simple_list_item_1, null);
         }
         Metadata metadata = getItem(position);
-        TextView titleTextView =
-                (TextView) convertView.findViewById(android.R.id.text1);
+        TextView titleTextView =(TextView) convertView.findViewById(android.R.id.text1);
+       // TextView driveIdView = (TextView) convertView.findViewById(android.R.id.text2);
+      //  driveIdView.setVisibility(View.INVISIBLE);
         titleTextView.setText(metadata.getTitle());
+       // driveIdView.setText((CharSequence) metadata.getDriveId().encodeToString());
         return convertView;
     }
 }

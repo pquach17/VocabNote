@@ -48,6 +48,21 @@ public class FileProcessor {
             return false;
         }
     }
+    public boolean importData(BufferedReader buffer){
+        // 1. Read file's content => return an array list of words
+        // 2. Insert data into database
+        Word[] arrWords = readFile(buffer);
+        WordDataSource wordds = new WordDataSource(mContext);
+        if(arrWords!=null && arrWords.length>0){
+            for(int i=0;i<arrWords.length; i++){
+                wordds.insert(arrWords[i]);
+            }
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 
     private boolean writeFile(OutputStream outstr, Cursor content){
         try{
@@ -87,16 +102,16 @@ public class FileProcessor {
             File file = new File(dir, fileName);
             FileInputStream fIn = new FileInputStream(file);
             InputStreamReader isr = new InputStreamReader(fIn);
-            BufferedReader buff = new BufferedReader(isr);
+            BufferedReader reader = new BufferedReader(isr);
             try{
-                rowCount = Integer.parseInt(buff.readLine());
+                rowCount = Integer.parseInt(reader.readLine());
             }catch (NumberFormatException nfe){
                 nfe.printStackTrace();
-                buff.close();
+                reader.close();
                 return null;
             }
             arrWords = new Word[rowCount];
-            while((readLine=buff.readLine())!=null){
+            while((readLine=reader.readLine())!=null){
                 Word newWord = new Word();
                 switch(readLine.charAt(0)){
                     case WORD:
@@ -121,7 +136,55 @@ public class FileProcessor {
                         break;
                 };
             }
-            buff.close();
+            reader.close();
+            return arrWords;
+
+        }catch (IOException ioe) {
+            ioe.printStackTrace();
+            return null;
+        }
+    }
+
+    private Word[] readFile(BufferedReader reader){
+        int rowCount = 0, i=0;
+        String readLine, word=null, type=null, def=null, ex=null;
+        Word[] arrWords;
+
+        try{
+            try{
+                rowCount = Integer.parseInt(reader.readLine());
+            }catch (NumberFormatException nfe){
+                nfe.printStackTrace();
+                reader.close();
+                return null;
+            }
+            arrWords = new Word[rowCount];
+            while((readLine=reader.readLine())!=null){
+                Word newWord = new Word();
+                switch(readLine.charAt(0)){
+                    case WORD:
+                        word=readLine.substring(1);
+                        break;
+                    case TYPE:
+                        type=readLine.substring(1);
+                        break;
+                    case DEFINITION:
+                        def=readLine.substring(1);
+                        break;
+                    case EXAMPLE:
+                        ex=readLine.substring(1);
+                        break;
+                    case DIVIDER:
+                        newWord.setWord(word);
+                        newWord.setType(type);
+                        newWord.setDefinition(def);
+                        newWord.setExample(ex);
+                        arrWords[i++] = newWord;
+                    default:
+                        break;
+                };
+            }
+            reader.close();
             return arrWords;
 
         }catch (IOException ioe) {

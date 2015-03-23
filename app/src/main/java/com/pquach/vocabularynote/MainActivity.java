@@ -6,6 +6,7 @@ import com.pquach.vocabularynote.R;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.app.AlertDialog;
@@ -107,13 +109,13 @@ public class MainActivity extends  ActionBarActivity {
 		mWordDS.close();
 		super.onPause();
 	}
-	
-	
-	@Override
+
+    @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_main_actions, menu);
 		return super.onCreateOptionsMenu(menu);
+
 	}
 	
 	@Override
@@ -200,7 +202,6 @@ public class MainActivity extends  ActionBarActivity {
 			   .setMultiChoiceItems(R.array.spinner_type, mCheckedItems, new OnMultiChoiceClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-					// TODO Auto-generated method stub
 					if(isChecked){
 						mSelectedItems.add(which); // add checked item into an array
 						mCheckedItems[which] = true;
@@ -214,7 +215,6 @@ public class MainActivity extends  ActionBarActivity {
 				
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
 					Cursor cur = filter();
 					mAdapter.swapCursor(cur);
 					cur = sortWordList(mAdapter.getCursor(), mSelectedSortingCondition[0],mSelectedSortingCondition[1]);
@@ -230,7 +230,6 @@ public class MainActivity extends  ActionBarActivity {
 				
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
 					mCheckedCondition = which;
 					Cursor cur;
 					String[] arr = getResources().getStringArray(R.array.sort_condition);
@@ -271,7 +270,7 @@ public class MainActivity extends  ActionBarActivity {
 	}
 	
 	protected void refreshListViewAdapter(){
-		Cursor cur = loadWordList();
+		Cursor cur;
 		cur = filter();
 		cur = sortWordList(cur, mSelectedSortingCondition[0], mSelectedSortingCondition[1]);
 		mAdapter.swapCursor(cur);
@@ -359,10 +358,9 @@ public class MainActivity extends  ActionBarActivity {
 		@Override
 		public void onItemClick(AdapterView<?> listview, View view, int position,
 				long id) {
-			// TODO Auto-generated method stub
 			Intent intent = new Intent();
 			intent.putExtra("id", id);
-			intent.setClassName("com.pquach.vocabularynote", "com.pquach.vocabularynote.WordDetailActivity");
+			intent.setClass(getBaseContext(),WordDetailActivity.class);
 			startActivity(intent);
 		}
 	}
@@ -371,13 +369,11 @@ public class MainActivity extends  ActionBarActivity {
 		
 		int id;
 		public AlertDialogListener(int wordId) {
-			// TODO Auto-generated constructor stub
 			id = wordId;
 		}
 		
 		@Override
 		public void onClick(DialogInterface dialog, int which) {
-			// TODO Auto-generated method stub
 			switch(which){
 			case DialogInterface.BUTTON_POSITIVE:
 				delete(id);
