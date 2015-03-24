@@ -3,20 +3,20 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical" >
- 
-	<ListView 
+
+    <ListView
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
         android:layout_marginLeft="5dip"
         android:layout_marginRight="5dip"
         android:id="@+id/lv_wordlist"></ListView>
-    
-	 <TextView 
-	     android:layout_width="wrap_content"
-	     android:layout_height="wrap_content"
-	     android:layout_gravity="center"
-	     android:textColor="@color/light_gray"
-	     android:text="@string/str_instruct_msg"
-	     android:id="@+id/tv_instruct_msg"/>  
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/light_gray"
+        android:text="@string/str_instruct_msg"
+        android:id="@+id/tv_instruct_msg"/>
 </LinearLayout>
