@@ -3,9 +3,13 @@ package com.pquach.vocabularynote;
 import java.util.ArrayList;
 import java.util.Collections;
 import com.pquach.vocabularynote.R;
+
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -16,6 +20,7 @@ import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -47,7 +52,11 @@ public class MainActivity extends  ActionBarActivity {
 	AlertDialog mFilterDialog;
 	AlertDialog mSortDialog;
 	android.support.v4.widget.SimpleCursorAdapter  mAdapter;
-	
+    private String[] mDrawerTitles;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+	private ActionBarDrawerToggle mDrawerToggle;
+    private CharSequence mTitle, mDrawerTitle;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -74,9 +83,38 @@ public class MainActivity extends  ActionBarActivity {
 			mSelectedItems = new ArrayList<Integer>();
 			cur = this.loadWordList();
 		}						
-		
+		//-----Create navigation drawer-----
+        mTitle = mDrawerTitle = getTitle();
+        mDrawerTitles = getResources().getStringArray(R.array.drawer_item_list);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mDrawerTitles));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getSupportActionBar().setTitle(mTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getSupportActionBar().setTitle(mDrawerTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerList.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
 		//-----Create list view----------
-		
 		// Bind data into List view
 		String[] from = {VobNoteContract.Word.COLUMN_NAME_WORD, VobNoteContract.Word.COLUMN_NAME_TYPE};
 		int[] to = {R.id.tv_list_row, R.id.tv_list_row_type};
@@ -117,6 +155,15 @@ public class MainActivity extends  ActionBarActivity {
 		return super.onCreateOptionsMenu(menu);
 
 	}
+
+    /* Called whenever we call invalidateOptionsMenu() */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // If the nav drawer is open, hide action items related to the content view
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+        menu.findItem(R.id.action_new_word).setVisible(!drawerOpen);
+        return super.onPrepareOptionsMenu(menu);
+    }
 	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
@@ -125,9 +172,24 @@ public class MainActivity extends  ActionBarActivity {
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.context_menu_listview, menu);
 	}
-	
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggls
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
+        if(mDrawerToggle.onOptionsItemSelected(item))
+            return true;
 		// Handle presses on the action bar items
 		Intent intent = new Intent();
 	    switch (item.getItemId()) {
