@@ -29,8 +29,9 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class WordDetailActivity extends ActionBarActivity {
-	
-	long mId;
+
+
+	private long mId;
 	TextView tv_word ;
 	TextView tv_word_type;
 	TextView tv_definition ;
@@ -185,10 +186,7 @@ public class WordDetailActivity extends ActionBarActivity {
 	}
 
     private boolean isTtsAvailable(){
-        if(isPackageInstalled(getPackageManager(),ttsPackageName)){
-            return true;
-        }
-        return false;
+        return isPackageInstalled(getPackageManager(),ttsPackageName);
     }
 
     private boolean isPackageInstalled(PackageManager pm, String packageName){
@@ -268,8 +266,7 @@ public class WordDetailActivity extends ActionBarActivity {
 
             Log.v("LoadTtsTask", "onPostExecute");
         }
-
-
-
     }
+
+
 }

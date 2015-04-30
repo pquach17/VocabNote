@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" 
     xmlns:vocabnote="http://schemas.android.com/apk/res-auto" >
-   
-    <item
-        android:id="@+id/action_new_word"
-        android:icon="@drawable/ic_action_new"
-        android:title="@string/title_create_new"
-        vocabnote:showAsAction="always" />
+
     <item
         android:id="@+id/action_sort"
         android:title="@string/str_action_sort"
@@ -20,11 +15,6 @@
         android:id="@+id/action_flash_card"
         android:title="@string/str_action_flash_card"
         vocabnote:showAsAction="never" />
-    
-    <item
-        android:id="@+id/action_settings"
-        android:title="@string/str_action_settings"
-        vocabnote:showAsAction="never" />
 
     <item
         android:id="@+id/action_backup"
@@ -34,5 +24,9 @@
     <item
         android:id="@+id/action_restore"
         android:title="@string/str_action_restore"
+        vocabnote:showAsAction="never" />
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/str_action_settings"
         vocabnote:showAsAction="never" />
 </menu>

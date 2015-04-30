@@ -28,13 +28,13 @@ import android.widget.Toast;
 
 public class EditDetailActivity extends ActionBarActivity{
 
-	long mId;
-	EditText edit_word ;
-	EditText edit_definition ;
-	EditText edit_example;
-	Spinner spinner ;
-	ImageButton btn_web;
-	Word word = new Word();
+	private long mId;
+	private EditText edit_word ;
+    private EditText edit_definition ;
+    private EditText edit_example;
+    private Spinner spinner ;
+    private ImageButton btn_web;
+    private Word word = new Word();
 	private WordDataSource mWordds; 
 	
 	@Override
@@ -68,7 +68,6 @@ public class EditDetailActivity extends ActionBarActivity{
 			edit_word.setText(word.getWord());
 			edit_definition.setText(word.getDefinition());
 			edit_example.setText(word.getExample());
-			adapter.getPosition(word.getType());
 			spinner.setSelection(adapter.getPosition(word.getType()));
 		}
 		
@@ -171,8 +170,9 @@ public class EditDetailActivity extends ActionBarActivity{
 		word.setDefinition(edit_definition.getText().toString());
 		word.setExample(edit_example.getText().toString());
 		WordDataSource wordds = new WordDataSource(this);
-		if(wordds.update(word)<1)// if no row gets updated, return false
-			return false;
+		if(wordds.update(word)<1) {// if no row gets updated, return false
+            return false;
+        }
 		return true;
 	}
 	

@@ -63,7 +63,12 @@ public class WordDataSource {
 		Cursor cur = mSQLiteDb.rawQuery(queryString,new String [] {});
 		return cur;
 	}
-	
+
+    /**
+     * Select rows based on the provided word types
+     * @param types an array of word types that will be in the WHERE clause of the SELECT statement
+     * @return a Cursor which is the result of the SELECT statement. If the array types is empty, the SELECT statement will return all rows in the table
+     */
 	public Cursor selectByTypes(String[] types){
 		Cursor cur;
 		if(types.length==0){

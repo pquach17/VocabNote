@@ -133,7 +133,6 @@ public class NewWordActivity extends ActionBarActivity{
 		 
 		// Add new word into Word table
 		if(edit_word.getText().length()<=0){
-			edit_word.requestFocus();
 			return false;
 		}
 		Word word = new Word();

@@ -1,40 +1,31 @@
-<resources xmlns:android="http://schemas.android.com/apk/res/android"
-     xmlns:vocabnote="http://schemas.android.com/apk/res-auto">
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme for API 11+. This theme completely replaces
         AppBaseTheme from res/values/styles.xml on API 11+ devices.
     -->
-    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light">
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- API 11 theme customizations can go here. -->
-       <item name="android:actionBarStyle">@style/AppBaseTheme.ActionBar</item> 
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="android:textColorPrimary">@color/color_body_text</item>
+
     </style>
-    
-    <!-- ActionBar style  -->
-	<style name="AppBaseTheme.ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
-	     <item name="android:background">@color/dark_green</item> 
-	     <item name="android:titleTextStyle">@style/AppBaseTheme.ActionBar.TitleTextStyle</item>
-	</style>
-	
-	<!-- ActionBar Tittle style -->
-	<style name="AppBaseTheme.ActionBar.TitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
-	    <item name="android:textColor">@color/white</item>
-	</style>
-	
-	<!-- Label text style -->
-	<style name="AppBaseTheme.LabelText" parent="@android:style/TextAppearance.Medium">
-	    <item name="android:textColor">@color/dark_green</item>
-	</style>
-	
-	<!-- No content available text style -->
-	<style name="AppBaseTheme.InformationText" parent="@android:style/TextAppearance.Medium">
-	    <item name="android:textColor">@color/light_gray</item>
-	    <item name="android:gravity">center</item>
-	</style>
-	<!-- Color definitions  -->
-	<color name="light_gray">#676767</color>
-	<color name="white">#ffffff</color>
-	<color name="light_blue">#33b5e5</color>
-	<color name="light_green">#99cc00</color>
-	<color name="dark_green">#669900</color>
+
+
+    <!-- Label text style -->
+    <style name="AppBaseTheme.LabelText" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/color_label_text</item>
+    </style>
+
+    <!-- No content available text style -->
+    <style name="AppBaseTheme.InformationText" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/color_label_text</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="AppBaseTheme.DetailText" parent="android:style/TextAppearance.Medium">
+
+    </style>
 </resources>

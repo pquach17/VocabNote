@@ -134,7 +134,7 @@ public class FileProcessor {
                         arrWords[i++] = newWord;
                     default:
                         break;
-                };
+                }
             }
             reader.close();
             return arrWords;
@@ -182,7 +182,7 @@ public class FileProcessor {
                         arrWords[i++] = newWord;
                     default:
                         break;
-                };
+                }
             }
             reader.close();
             return arrWords;
