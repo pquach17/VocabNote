@@ -39,46 +39,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NewWordActivity"
-            android:label="@string/str_label_new_word"
-            android:parentActivityName=".MainActivity"
-            android:windowSoftInputMode="stateVisible" >
-
-            <!-- Parent activity meta-data to support API level 7+ -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pquach.vocabularynote.MainActivity" />
-        </activity>
-        <activity
-            android:name=".WordDetailActivity"
-            android:label="@string/str_label_word_detail"
-            android:parentActivityName=".MainActivity"
-            android:uiOptions="splitActionBarWhenNarrow" >
-
-            <!-- Parent activity meta-data to support API level 7+ -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pquach.vocabularynote.MainActivity" />
-            <meta-data
-                android:name="android.support.UI_OPTIONS"
-                android:value="splitActionBarWhenNarrow" />
-        </activity>
-        <activity
-            android:name=".EditDetailActivity"
-            android:label="@string/str_label_word_edit"
-            android:windowSoftInputMode="stateVisible" >
-        </activity>
-        <activity
-            android:name=".WebViewerActivity"
-            android:label="@string/str_label_dictionary"
-            android:parentActivityName=".MainActivity" >
-
-            <!-- Parent activity meta-data to support API level 7+ -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pquach.vocabularynote.MainActivity" />
-        </activity>
-        <activity
             android:name=".FlashCardActivity"
             android:label="@string/title_activity_flash_card"
             android:parentActivityName=".MainActivity" >

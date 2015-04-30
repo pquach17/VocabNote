@@ -133,7 +133,7 @@ android.support.v4.app.FragmentManager.OnBackStackChangedListener{
     public void onFragmentInteraction(long id) {
         WordDetailFragment wordDetailFragment = WordDetailFragment.newInstance(id);
         getSupportFragmentManager().beginTransaction()
-                .addToBackStack(null)
+                .addToBackStack(WordDetailFragment.TAG)
                 .replace(R.id.fragment_container, wordDetailFragment, WordDetailFragment.TAG)
                 .commit();
     }

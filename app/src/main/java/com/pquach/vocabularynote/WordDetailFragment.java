@@ -234,6 +234,9 @@ public class WordDetailFragment extends Fragment implements View.OnClickListener
                         // Delete the word and go back to word list.
                         delete((int)mWordId);
                         WordFragment wordFragment = new WordFragment();
+                        // remove the back stack (from WordList fragment -> WordDetail fragment)
+                        getActivity().getSupportFragmentManager().popBackStack(WordDetailFragment.TAG,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        // start WordList fragment
                         getActivity().getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.fragment_container, wordFragment, WordFragment.TAG)

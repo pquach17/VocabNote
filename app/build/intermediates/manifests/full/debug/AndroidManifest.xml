@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="9"
-        android:targetSdkVersion="19" />
+        android:targetSdkVersion="22" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -37,46 +37,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name="com.pquach.vocabularynote.NewWordActivity"
-            android:label="@string/str_label_new_word"
-            android:parentActivityName="com.pquach.vocabularynote.MainActivity"
-            android:windowSoftInputMode="stateVisible" >
-
-            <!-- Parent activity meta-data to support API level 7+ -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pquach.vocabularynote.MainActivity" />
-        </activity>
-        <activity
-            android:name="com.pquach.vocabularynote.WordDetailActivity"
-            android:label="@string/str_label_word_detail"
-            android:parentActivityName="com.pquach.vocabularynote.MainActivity"
-            android:uiOptions="splitActionBarWhenNarrow" >
-
-            <!-- Parent activity meta-data to support API level 7+ -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pquach.vocabularynote.MainActivity" />
-            <meta-data
-                android:name="android.support.UI_OPTIONS"
-                android:value="splitActionBarWhenNarrow" />
-        </activity>
-        <activity
-            android:name="com.pquach.vocabularynote.EditDetailActivity"
-            android:label="@string/str_label_word_edit"
-            android:windowSoftInputMode="stateVisible" >
-        </activity>
-        <activity
-            android:name="com.pquach.vocabularynote.WebViewerActivity"
-            android:label="@string/title_activity_web_viewer"
-            android:parentActivityName="com.pquach.vocabularynote.MainActivity" >
-
-            <!-- Parent activity meta-data to support API level 7+ -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pquach.vocabularynote.MainActivity" />
         </activity>
         <activity
             android:name="com.pquach.vocabularynote.FlashCardActivity"
@@ -120,6 +80,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.pquach.vocabularynote.MainActivity" />
         </activity>
+        <activity
+            android:name="android.support.v7.widget.TestActivity"
+            android:label="RecyclerViewTestActivity" />
     </application>
 
 </manifest>

@@ -2,30 +2,25 @@
 <resources>
     <!-- From: file:/D:/Android%20Studio%20Projects/VocabNote/app/src/main/res/values-v11/styles.xml -->
     <eat-comment/>
-    <color name="dark_green">#669900</color>
-    <color name="light_blue">#33b5e5</color>
-    <color name="light_gray">#676767</color>
-    <color name="light_green">#99cc00</color>
-    <color name="white">#ffffff</color>
-    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light">
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- API 11 theme customizations can go here. -->
-       <item name="android:actionBarStyle">@style/AppBaseTheme.ActionBar</item> 
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="android:textColorPrimary">@color/color_body_text</item>
+
     </style>
-    <style name="AppBaseTheme.ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
-	     <item name="android:background">@color/dark_green</item> 
-	     <item name="android:titleTextStyle">@style/AppBaseTheme.ActionBar.TitleTextStyle</item>
-	</style>
-    <style name="AppBaseTheme.ActionBar.TitleTextStyle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
-	    <item name="android:textColor">@color/white</item>
-	</style>
+    <style name="AppBaseTheme.DetailText" parent="android:style/TextAppearance.Medium">
+
+    </style>
     <style name="AppBaseTheme.InformationText" parent="@android:style/TextAppearance.Medium">
-	    <item name="android:textColor">@color/light_gray</item>
-	    <item name="android:gravity">center</item>
-	</style>
+        <item name="android:textColor">@color/color_label_text</item>
+        <item name="android:gravity">center</item>
+    </style>
     <style name="AppBaseTheme.LabelText" parent="@android:style/TextAppearance.Medium">
-	    <item name="android:textColor">@color/dark_green</item>
-	</style>
-    <!-- From: file:/D:/Android%20Studio%20Projects/VocabNote/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.2/res/values-v11/values.xml -->
+        <item name="android:textColor">@color/color_label_text</item>
+    </style>
+    <!-- From: file:/D:/Android%20Studio%20Projects/VocabNote/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/values-v11/values.xml -->
     <eat-comment/>
     <style name="Base.TextAppearance.AppCompat.Inverse">
         <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
@@ -94,9 +89,11 @@
         <item name="windowActionBar">true</item>
         <item name="windowActionBarOverlay">false</item>
         <item name="isLightTheme">true</item>
+
         <item name="selectableItemBackground">@drawable/abc_item_background_holo_light</item>
         <item name="selectableItemBackgroundBorderless">?attr/selectableItemBackground</item>
         <item name="homeAsUpIndicator">@drawable/abc_ic_ab_back_mtrl_am_alpha</item>
+
         <item name="dividerVertical">@drawable/abc_list_divider_mtrl_alpha</item>
         <item name="dividerHorizontal">@drawable/abc_list_divider_mtrl_alpha</item>
 
@@ -123,6 +120,7 @@
         <item name="actionModeSplitBackground">?attr/colorPrimaryDark</item>
         <item name="actionModeCloseDrawable">@drawable/abc_ic_ab_back_mtrl_am_alpha</item>
         <item name="actionModeCloseButtonStyle">@style/Widget.AppCompat.ActionButton.CloseMode</item>
+
         <item name="actionModeCutDrawable">@drawable/abc_ic_menu_cut_mtrl_alpha</item>
         <item name="actionModeCopyDrawable">@drawable/abc_ic_menu_copy_mtrl_am_alpha</item>
         <item name="actionModePasteDrawable">@drawable/abc_ic_menu_paste_mtrl_am_alpha</item>
@@ -167,27 +165,41 @@
         <item name="textAppearanceSearchResultSubtitle">@style/TextAppearance.AppCompat.SearchResult.Subtitle</item>
 
         <!-- ShareActionProvider attributes -->
-        <item name="activityChooserViewStyle">@style/Widget.AppCompat.Light.ActivityChooserView</item>
+        <item name="activityChooserViewStyle">@style/Widget.AppCompat.ActivityChooserView</item>
 
         <!-- Toolbar styles -->
         <item name="toolbarStyle">@style/Widget.AppCompat.Toolbar</item>
         <item name="toolbarNavigationButtonStyle">@style/Widget.AppCompat.Toolbar.Button.Navigation</item>
+
         <item name="android:editTextStyle">@style/Widget.AppCompat.EditText</item>
         <item name="editTextBackground">@drawable/abc_edit_text_material</item>
         <item name="editTextColor">?android:attr/textColorPrimary</item>
+        <item name="android:autoCompleteTextViewStyle">@style/Widget.AppCompat.AutoCompleteTextView</item>
 
         <!-- Color palette -->
         <item name="colorPrimaryDark">@color/primary_dark_material_light</item>
         <item name="colorPrimary">@color/primary_material_light</item>
         <item name="colorAccent">@color/accent_material_light</item>
+
         <item name="colorControlNormal">?android:attr/textColorSecondary</item>
         <item name="colorControlActivated">?attr/colorAccent</item>
         <item name="colorControlHighlight">@color/ripple_material_light</item>
+        <item name="colorButtonNormal">@color/button_material_light</item>
         <item name="colorSwitchThumbNormal">@color/switch_thumb_normal_material_light</item>
+
         <item name="switchStyle">@style/Widget.AppCompat.CompoundButton.Switch</item>
+
+        <item name="android:ratingBarStyle">@style/Widget.AppCompat.RatingBar</item>
+
+        <!-- Button styles -->
+        <item name="android:buttonStyle">@style/Widget.AppCompat.Button</item>
+        <item name="android:buttonStyleSmall">@style/Widget.AppCompat.Button.Small</item>
+        <item name="android:textAppearanceButton">@style/TextAppearance.AppCompat.Button</item>
     </style>
-    <style name="Base.Widget.AppCompat.ProgressBar" parent="android:Widget.Holo.ProgressBar"/>
-    <style name="Base.Widget.AppCompat.ProgressBar.Horizontal" parent="android:Widget.Holo.ProgressBar.Horizontal"/>
+    <style name="Base.Widget.AppCompat.ProgressBar" parent="android:Widget.Holo.ProgressBar">
+    </style>
+    <style name="Base.Widget.AppCompat.ProgressBar.Horizontal" parent="android:Widget.Holo.ProgressBar.Horizontal">
+    </style>
     <style name="Base.Widget.AppCompat.Spinner" parent="android:Widget.Holo.Spinner">
         <item name="android:background">@drawable/abc_spinner_mtrl_am_alpha</item>
         <item name="android:dropDownSelector">?attr/listChoiceBackgroundIndicator</item>
@@ -196,6 +208,7 @@
     <style name="Platform.AppCompat" parent="android:Theme.Holo">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
+
         <item name="buttonBarStyle">?android:attr/buttonBarStyle</item>
         <item name="buttonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
         <item name="selectableItemBackground">?android:attr/selectableItemBackground</item>
@@ -234,14 +247,18 @@
         <item name="android:textAppearanceMediumInverse">@style/TextAppearance.AppCompat.Medium.Inverse</item>
         <item name="android:textAppearanceSmall">@style/TextAppearance.AppCompat.Small</item>
         <item name="android:textAppearanceSmallInverse">@style/TextAppearance.AppCompat.Small.Inverse</item>
+
         <item name="android:spinnerStyle">@style/Widget.AppCompat.Spinner</item>
+        <item name="android:spinnerItemStyle">@style/Widget.AppCompat.TextView.SpinnerItem</item>
         <item name="android:dropDownListViewStyle">@style/Widget.AppCompat.ListView.DropDown</item>
+
         <item name="android:listChoiceIndicatorSingle">@drawable/abc_btn_radio_material</item>
         <item name="android:listChoiceIndicatorMultiple">@drawable/abc_btn_check_material</item>
     </style>
     <style name="Platform.AppCompat.Dialog" parent="android:Theme.Holo.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
+
         <item name="buttonBarStyle">?android:attr/buttonBarStyle</item>
         <item name="buttonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
         <item name="selectableItemBackground">?android:attr/selectableItemBackground</item>
@@ -280,14 +297,18 @@
         <item name="android:textAppearanceMediumInverse">@style/TextAppearance.AppCompat.Medium.Inverse</item>
         <item name="android:textAppearanceSmall">@style/TextAppearance.AppCompat.Small</item>
         <item name="android:textAppearanceSmallInverse">@style/TextAppearance.AppCompat.Small.Inverse</item>
+
         <item name="android:spinnerStyle">@style/Widget.AppCompat.Spinner</item>
+        <item name="android:spinnerItemStyle">@style/Widget.AppCompat.TextView.SpinnerItem</item>
         <item name="android:dropDownListViewStyle">@style/Widget.AppCompat.ListView.DropDown</item>
+
         <item name="android:listChoiceIndicatorSingle">@drawable/abc_btn_radio_material</item>
         <item name="android:listChoiceIndicatorMultiple">@drawable/abc_btn_check_material</item>
     </style>
     <style name="Platform.AppCompat.Light" parent="android:Theme.Holo.Light">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
+
         <item name="buttonBarStyle">?android:attr/buttonBarStyle</item>
         <item name="buttonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
         <item name="selectableItemBackground">?android:attr/selectableItemBackground</item>
@@ -327,14 +348,18 @@
         <item name="android:textAppearanceMediumInverse">@style/TextAppearance.AppCompat.Medium.Inverse</item>
         <item name="android:textAppearanceSmall">@style/TextAppearance.AppCompat.Small</item>
         <item name="android:textAppearanceSmallInverse">@style/TextAppearance.AppCompat.Small.Inverse</item>
+
         <item name="android:spinnerStyle">@style/Widget.AppCompat.Spinner</item>
+        <item name="android:spinnerItemStyle">@style/Widget.AppCompat.TextView.SpinnerItem</item>
         <item name="android:dropDownListViewStyle">@style/Widget.AppCompat.ListView.DropDown</item>
+
         <item name="android:listChoiceIndicatorSingle">@drawable/abc_btn_radio_material</item>
         <item name="android:listChoiceIndicatorMultiple">@drawable/abc_btn_check_material</item>
     </style>
     <style name="Platform.AppCompat.Light.Dialog" parent="android:Theme.Holo.Light.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
+
         <item name="buttonBarStyle">?android:attr/buttonBarStyle</item>
         <item name="buttonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
         <item name="selectableItemBackground">?android:attr/selectableItemBackground</item>
@@ -374,8 +399,11 @@
         <item name="android:textAppearanceMediumInverse">@style/TextAppearance.AppCompat.Medium.Inverse</item>
         <item name="android:textAppearanceSmall">@style/TextAppearance.AppCompat.Small</item>
         <item name="android:textAppearanceSmallInverse">@style/TextAppearance.AppCompat.Small.Inverse</item>
+
         <item name="android:spinnerStyle">@style/Widget.AppCompat.Spinner</item>
+        <item name="android:spinnerItemStyle">@style/Widget.AppCompat.TextView.SpinnerItem</item>
         <item name="android:dropDownListViewStyle">@style/Widget.AppCompat.ListView.DropDown</item>
+
         <item name="android:listChoiceIndicatorSingle">@drawable/abc_btn_radio_material</item>
         <item name="android:listChoiceIndicatorMultiple">@drawable/abc_btn_check_material</item>
     </style>
