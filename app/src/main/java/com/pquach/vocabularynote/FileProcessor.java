@@ -21,24 +21,26 @@ public class FileProcessor {
     final char EXAMPLE = '&';
     final char DIVIDER = '^';
     Context mContext;
+    long mCategoryId;
 
     public FileProcessor(Context context) {
         // TODO Auto-generated constructor stub
         mContext = context;
+        mCategoryId = 0;
     }
+
     public boolean exportData(OutputStream outstr){
         //--Load data
-        WordDataSource wordds = new WordDataSource(mContext);
-        Cursor cur = wordds.getAll();
+        WordDataSource wordds = new WordDataSource(mContext, mCategoryId);
+        Cursor cur = wordds.getFromAllCategory();
         return writeFile(outstr, cur);
-
     }
 
     public boolean importData(String fileName){
         // 1. Read file's content => return an array list of words
         // 2. Insert data into database
         Word[] arrWords = readFile(fileName);
-        WordDataSource wordds = new WordDataSource(mContext);
+        WordDataSource wordds = new WordDataSource(mContext, mCategoryId);
         if(arrWords!=null && arrWords.length>0){
             for(int i=0;i<arrWords.length; i++){
                 wordds.insert(arrWords[i]);
@@ -52,7 +54,7 @@ public class FileProcessor {
         // 1. Read file's content => return an array list of words
         // 2. Insert data into database
         Word[] arrWords = readFile(buffer);
-        WordDataSource wordds = new WordDataSource(mContext);
+        WordDataSource wordds = new WordDataSource(mContext, mCategoryId);
         if(arrWords!=null && arrWords.length>0){
             for(int i=0;i<arrWords.length; i++){
                 wordds.insert(arrWords[i]);

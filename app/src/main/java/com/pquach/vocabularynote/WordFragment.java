@@ -5,12 +5,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+
 import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+
 
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,7 +22,11 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListAdapter;
+import android.widget.Spinner;
+
 import android.widget.TextView;
 
 
@@ -29,6 +35,7 @@ import com.melnykov.fab.FloatingActionButton;
 import java.util.ArrayList;
 
 import java.util.Collections;
+import java.util.jar.Manifest;
 
 /**
  * A fragment representing a list of Items.
@@ -39,27 +46,26 @@ import java.util.Collections;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class WordFragment extends Fragment implements AbsListView.OnItemClickListener {
+public class WordFragment extends BaseFragment implements AbsListView.OnItemClickListener {
 
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    public static final String TAG = "WordFragmentTag";
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    // the fragment initialization parameters
+    public static final String TAG = "WordFragment";
     private final String ARG_SORT_BY_WORD = "mSortByWord";
     private final String ARG_ASCENDING = "mAscending";
     private final String ARG_CHECKED_SORT_CONDITION = "mCheckedSortCondition";
     private final String ARG_CHECKED_FILTER_CONDITIONS = "mCheckedFilterConditions";
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    /**
+     *  the selected word list (category) that will be displayed
+     */
+    private long mCategory;
+
 
     /**
      * The fragment's ListView/GridView.
      */
     private AbsListView mListView;
-
+    private Spinner mNavigationSpinner;
     /**
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
@@ -67,7 +73,7 @@ public class WordFragment extends Fragment implements AbsListView.OnItemClickLis
     private SimpleCursorAdapter mAdapter;
 
     /**
-     * The Cursor which contains data set retrieved from the database
+     * The Cursor which contains word list retrieved from the database
      */
     private Cursor mCursor;
 
@@ -89,11 +95,10 @@ public class WordFragment extends Fragment implements AbsListView.OnItemClickLis
     private boolean[] mCheckedFilterConditions;
 
     // TODO: Rename and change types of parameters
-    public static WordFragment newInstance(String param1, String param2) {
+    public static WordFragment newInstance(long category) {
         WordFragment fragment = new WordFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putLong(Constant.ARG_CATEGORY, category);
         fragment.setArguments(args);
         return fragment;
     }
@@ -109,11 +114,9 @@ public class WordFragment extends Fragment implements AbsListView.OnItemClickLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        if(getArguments() != null){
+            mCategory = getArguments().getLong(Constant.ARG_CATEGORY);
         }
-
         // register Option Menu to container activity
         setHasOptionsMenu(true);
 
@@ -122,6 +125,7 @@ public class WordFragment extends Fragment implements AbsListView.OnItemClickLis
             mAscending = savedInstanceState.getBoolean(ARG_ASCENDING);
             mCheckedSortCondition = savedInstanceState.getInt(ARG_CHECKED_SORT_CONDITION);
             mCheckedFilterConditions = savedInstanceState.getBooleanArray(ARG_CHECKED_FILTER_CONDITIONS);
+            mCategory = savedInstanceState.getLong(Constant.ARG_CATEGORY);
         }else{
             // Initial state of the list will be sorting by "Oldest first",
             // and filtering by full list of word types
@@ -139,12 +143,14 @@ public class WordFragment extends Fragment implements AbsListView.OnItemClickLis
         outState.putBoolean(ARG_ASCENDING,mAscending);
         outState.putInt(ARG_CHECKED_SORT_CONDITION, mCheckedSortCondition);
         outState.putBooleanArray(ARG_CHECKED_FILTER_CONDITIONS, mCheckedFilterConditions);
+        outState.putLong(Constant.ARG_CATEGORY, mCategory);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_word, container, false);
+
 
         // Load data to the Cursor
         mCursor = filter();
@@ -168,12 +174,9 @@ public class WordFragment extends Fragment implements AbsListView.OnItemClickLis
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NewWordFragment newWordFragment = NewWordFragment.newInstance(null);
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container,newWordFragment, NewWordFragment.NEW_WORD_TAG)
-                        .addToBackStack(null)
-                        .commit();
+                Bundle args = new Bundle();
+                args.putLong(Constant.ARG_CATEGORY, mCategory);
+                startFragment(NewWordFragment.NEW_WORD_TAG, args);
             }
         });
         fab.attachToListView(mListView);
@@ -183,25 +186,10 @@ public class WordFragment extends Fragment implements AbsListView.OnItemClickLis
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        String title = getActivity().getResources().getString(R.string.app_name);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(title);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+        MainActivity activity = (MainActivity) getActivity();
+        activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Spinner spinner = (Spinner) activity.findViewById(R.id.spinner_nav);
+        spinner.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -224,6 +212,12 @@ public class WordFragment extends Fragment implements AbsListView.OnItemClickLis
             case R.id.action_flash_card:
                 showActivity(FlashCardActivity.class);
                 return true;
+            case R.id.action_rename_list:
+                showRenameListDialog();
+                return true;
+            case R.id.action_delete_list:
+                showDeleteListDialog();
+                return true;
             case R.id.action_backup:
                 showActivity(BackupActivity.class);
                 return true;
@@ -240,11 +234,10 @@ public class WordFragment extends Fragment implements AbsListView.OnItemClickLis
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (mListener != null) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(id);
-        }
+        Bundle args = new Bundle();
+        args.putLong(Constant.ARG_WORD_ID, id);
+        args.putLong(Constant.ARG_CATEGORY, mCategory);
+        startFragment(WordDetailFragment.TAG, args);
     }
 
     /**
@@ -262,9 +255,66 @@ public class WordFragment extends Fragment implements AbsListView.OnItemClickLis
 
     private void showActivity(Class activityClass){
         Intent intent = new Intent();
+        intent.putExtra(Constant.ARG_CATEGORY, mCategory);
         intent.setClass(getActivity(),activityClass);
         startActivity(intent);
     }
+
+    private void showRenameListDialog(){
+        final CategoryDataSource categoryDataSource = new CategoryDataSource(getActivity());
+        final Category category = categoryDataSource.getCategoryById(mCategory);
+        final EditText input = new EditText(getActivity());
+        input.setText(category.getCategoryName());
+        AlertDialog  dialog = new AlertDialog.Builder(getActivity())
+                .setTitle("Rename word list")
+                .setView(input)
+                .create();
+        DialogInterface.OnClickListener dialogOnClickListener = new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch(i){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        if(input.getText().length()>0) {
+                            category.setCategoryName(input.getText().toString());
+                            categoryDataSource.update(category);
+                            ((MainActivity)getActivity()).updateSpinner();
+                        }
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
+            }
+        };
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", dialogOnClickListener);
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Rename", dialogOnClickListener);
+        dialog.show();
+    }
+
+    private void showDeleteListDialog(){
+        final CategoryDataSource categoryDataSource = new CategoryDataSource(getActivity());
+        final Category category = categoryDataSource.getCategoryById(mCategory);
+        AlertDialog  dialog = new AlertDialog.Builder(getActivity())
+                .setTitle("Delete word list")
+                .setMessage("Deleting")
+                .create();
+        DialogInterface.OnClickListener dialogOnClickListener = new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch(i){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        Category.delete(getActivity(), mCategory);
+                        ((MainActivity)getActivity()).updateSpinner();
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
+            }
+        };
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE,"Cancel", dialogOnClickListener);
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE,"Delete", dialogOnClickListener);
+        dialog.show();
+    }
+
     private void showSortDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Sort by")
@@ -291,13 +341,14 @@ public class WordFragment extends Fragment implements AbsListView.OnItemClickLis
                        mAdapter.notifyDataSetChanged();
                    }
                })
-               .create();
-        AlertDialog dialog = builder.show();
+               .create().show();
         // Set title divider color
+        /*
         int titleDividerId = getResources().getIdentifier("titleDivider", "id", "android");
         View titleDivider = dialog.findViewById(titleDividerId);
         if (titleDivider != null)
             titleDivider.setBackgroundColor(getResources().getColor(android.R.color.holo_purple));
+            */
     }
 
     private void showFilterDialog(){
@@ -345,7 +396,7 @@ public class WordFragment extends Fragment implements AbsListView.OnItemClickLis
     }
 
     private Cursor filter(){
-        WordDataSource wordds = new WordDataSource(getActivity());
+        WordDataSource wordds = new WordDataSource(getActivity(), mCategory);
         ArrayList<String> selectedTypes = new ArrayList<String>();
         String[] arrTypes = getResources().getStringArray(R.array.spinner_type);
 

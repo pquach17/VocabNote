@@ -33,15 +33,19 @@ public class FlashCardActivity extends ActionBarActivity implements AnimationLis
 	RelativeLayout mFrontCardLayout;
 	RelativeLayout mBackCardLayout;
 	ArrayList<Word> mWordArray; 
-	ArrayList<Integer> mWordIdArray; // this array saves id of words removed from mWordArray so that 
+	ArrayList<Integer> mWordIdArray; // this array saves id of words removed from mWordArray so that
 	                                 // we know which word was already shown when the activity onCreate reloads
 	boolean mIsWordShowing;//if mIsWordShowing = false, it means definition is showing
 	boolean mIsOver;
 	int mCurrentCard; // this variable saves the current view of the card which is being shown (that is whether front card or back is being shown)
+	long mList;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_flash_card);
+
+		if(getIntent().hasExtra(Constant.ARG_CATEGORY))
+			mList = getIntent().getLongExtra(Constant.ARG_CATEGORY, 0);
 		//----create cards-----------
 		createCardLayout();	
 		
@@ -70,7 +74,7 @@ public class FlashCardActivity extends ActionBarActivity implements AnimationLis
 				int index = random.nextInt(mWordArray.size());
 				Word word = mWordArray.get(index);
 				mWordArray.remove(index);
-				mWordIdArray.add(word.getId());
+				mWordIdArray.add((int)word.getId());
 				changeText(word);
 			}else{
 				// When the word list is empty, shows instruction message
@@ -119,7 +123,7 @@ public class FlashCardActivity extends ActionBarActivity implements AnimationLis
 	protected void InitializeArrays(){
 		mWordIdArray = new ArrayList<Integer>();
 		// Load data
-		WordDataSource wordds = new WordDataSource(this);
+		WordDataSource wordds = new WordDataSource(this, mList);
 		mWordArray = wordds.getWordArray();
 	}
 	
@@ -221,7 +225,7 @@ public class FlashCardActivity extends ActionBarActivity implements AnimationLis
 			int index = random.nextInt(mWordArray.size());
 			Word word = mWordArray.get(index);
 			mWordArray.remove(index);
-			mWordIdArray.add(word.getId());
+			mWordIdArray.add((int)word.getId());
 			changeText(word);
 		}
 		

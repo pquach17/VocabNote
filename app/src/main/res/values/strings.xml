@@ -31,6 +31,9 @@
         <item>Restore</item>
     </string-array>
 
+
+    <string name="str_action_rename_list">Rename list</string>
+    <string name="str_action_delete_list">Delete list</string>
     <string name="str_action_backup">Backup</string>
     <string name="str_action_restore">Restore</string>
     <string name="str_action_bar_save">SAVE</string>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/D:/Android%20Studio%20Projects/VocabNote/app/src/main/res/values-v11/styles.xml -->
+    <!-- From: file:/D:/AndroidDev/VocabNote/app/src/main/res/values-v11/styles.xml -->
     <eat-comment/>
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- API 11 theme customizations can go here. -->
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
@@ -20,7 +20,7 @@
     <style name="AppBaseTheme.LabelText" parent="@android:style/TextAppearance.Medium">
         <item name="android:textColor">@color/color_label_text</item>
     </style>
-    <!-- From: file:/D:/Android%20Studio%20Projects/VocabNote/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/values-v11/values.xml -->
+    <!-- From: file:/D:/AndroidDev/VocabNote/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/values-v11/values.xml -->
     <eat-comment/>
     <style name="Base.TextAppearance.AppCompat.Inverse">
         <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>

@@ -12,4 +12,4 @@
        android:title="@string/str_action_bar_delete"
        android:icon="@drawable/ic_action_discard"
        vocabnote:showAsAction="ifRoom"/>
- </menu><!-- From: file:/D:/Android%20Studio%20Projects/VocabNote/app/src/main/res/menu/activity_word_detail_action.xml -->
+ </menu><!-- From: file:/D:/AndroidDev/VocabNote/app/src/main/res/menu/activity_word_detail_action.xml -->

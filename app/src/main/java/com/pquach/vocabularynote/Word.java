@@ -5,7 +5,7 @@ import java.util.Comparator;
 
 public class Word {
 	/*--------PROPERTIES----------*/
-	private int mId;
+	private long mId;
 	private String mWord;
 	private String mType;
 	private String mDefinition;
@@ -18,17 +18,17 @@ public class Word {
 	public Word(){
 		
 	}
-	
-	public int getId(){
+    public Word(String word){
+        mWord = word;
+    }
+	public long getId(){
 		return mId;
 	}
-	public void setId(int value){
+	public void setId(long value){
 		mId = value;
 	}
 	
-	public Word(String word){
-		mWord = word;
-	}
+
 	
 	public String getWord(){
 		return mWord;
@@ -73,7 +73,7 @@ public class Word {
 		@Override
 		public int compare(Word lhs, Word rhs) {
 			// TODO Auto-generated method stub
-			return lhs.getId() - rhs.getId();
+			return  (int)(lhs.getId() - rhs.getId());
 		}
 	}
 }

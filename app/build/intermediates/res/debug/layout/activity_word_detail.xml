@@ -76,4 +76,4 @@
         android:visibility="invisible"
         android:text="@string/str_unavailable"
         android:id="@+id/label_information"/>
-</LinearLayout><!-- From: file:/D:/Android%20Studio%20Projects/VocabNote/app/src/main/res/layout/activity_word_detail.xml -->
+</LinearLayout><!-- From: file:/D:/AndroidDev/VocabNote/app/src/main/res/layout/activity_word_detail.xml -->

@@ -28,8 +28,10 @@ import android.widget.Toast;
 public class DictionaryWebFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_WORD = "mWord";
-    private static final String ARG_URL = "mUrl";
+    public static final String ARG_WORD = "mWord";
+    public static final String ARG_URL = "mUrl";
+
+    public static final String TAG = "DictionaryWebFragment";
 
     // TODO: Rename and change types of parameters
     private String mWord;

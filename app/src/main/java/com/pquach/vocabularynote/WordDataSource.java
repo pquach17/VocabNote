@@ -11,9 +11,12 @@ public class WordDataSource {
 	
 	private SQLiteDatabase mSQLiteDb;
 	private DatabaseHelper mDbHelper;
+	private long mCategoryId;
+
 	
-	public WordDataSource(Context context){
+	public WordDataSource(Context context, long categoryId){
 		mDbHelper = new DatabaseHelper(context);
+		mCategoryId = categoryId;
 	}
 	
 	public void close(){
@@ -27,6 +30,7 @@ public class WordDataSource {
 		values.put(VobNoteContract.Word.COLUMN_NAME_TYPE, word.getType());
 		values.put(VobNoteContract.Word.COLUMN_NAME_DEFINITION, word.getDefinition());
 		values.put(VobNoteContract.Word.COLUMN_NAME_EXAMPLE, word.getExample());
+		values.put(VobNoteContract.Word.COLUMN_NAME_CATEGORY, mCategoryId);
 		long isDone = mSQLiteDb.insert(VobNoteContract.Word.TABLE_NAME, "", values);
 		mSQLiteDb.close();
 		return isDone;
@@ -39,7 +43,7 @@ public class WordDataSource {
 		values.put(VobNoteContract.Word.COLUMN_NAME_TYPE, word.getType());
 		values.put(VobNoteContract.Word.COLUMN_NAME_DEFINITION, word.getDefinition());
 		values.put(VobNoteContract.Word.COLUMN_NAME_EXAMPLE, word.getExample());
-		long isDone = mSQLiteDb.update(VobNoteContract.Word.TABLE_NAME,values,"id=?",new String[] {String.valueOf(word.getId())});
+		long isDone = mSQLiteDb.update(VobNoteContract.Word.TABLE_NAME, values, "id=?", new String[]{String.valueOf(word.getId())});
 		mSQLiteDb.close();
 		return isDone;
 	}
@@ -47,19 +51,42 @@ public class WordDataSource {
 	public long delete (String id){
 		String[] ids = {id};
 		mSQLiteDb = mDbHelper.getReadableDatabase();
-		long isDone = mSQLiteDb.delete(VobNoteContract.Word.TABLE_NAME, "id = ?" , ids);
+		long isDone = mSQLiteDb.delete(VobNoteContract.Word.TABLE_NAME, "id = ?", ids);
 		mSQLiteDb.close();
 		return isDone;
 	}
-	public Cursor getAll(){
+
+	public  long deleteByCategory(){
+		String[] categories = {String.valueOf(mCategoryId)};
+		mSQLiteDb = mDbHelper.getReadableDatabase();
+		long isDone = mSQLiteDb.delete(VobNoteContract.Word.TABLE_NAME, VobNoteContract.Word.COLUMN_NAME_CATEGORY + " = ?", categories);
+		mSQLiteDb.close();
+		return isDone;
+	}
+
+	public Cursor getFromAllCategory(){
 		mSQLiteDb = mDbHelper.getReadableDatabase();
 		Cursor cur = mSQLiteDb.rawQuery("SELECT id as _id, * FROM " + VobNoteContract.Word.TABLE_NAME,new String [] {});
 		return cur;
 	}
-	
+
+	/**
+	 * select Word table with a category id in the WHERE clause
+	 * @param categoryId
+	 * @return a cursor contains words in a selected category
+	 */
+	public  Cursor getWordsInCategory(long categoryId){
+		mSQLiteDb = mDbHelper.getReadableDatabase();
+		Cursor cur = mSQLiteDb.rawQuery("SELECT id as _id, * FROM " + VobNoteContract.Word.TABLE_NAME +
+				" WHERE " + VobNoteContract.Word.COLUMN_NAME_CATEGORY + "=" + categoryId, new String [] {});
+		return cur;
+	}
+
 	public Cursor sort(String direction){
 		mSQLiteDb = mDbHelper.getReadableDatabase();
-		String queryString = "SELECT id as _id, * FROM " + VobNoteContract.Word.TABLE_NAME + " ORDER BY " + VobNoteContract.Word.COLUMN_NAME_WORD + " " + direction ;
+		String queryString = "SELECT id as _id, * FROM " + VobNoteContract.Word.TABLE_NAME +
+				" WHERE " + VobNoteContract.Word.COLUMN_NAME_CATEGORY + "=" + mCategoryId +
+				" ORDER BY " + VobNoteContract.Word.COLUMN_NAME_WORD + " " + direction ;
 		Cursor cur = mSQLiteDb.rawQuery(queryString,new String [] {});
 		return cur;
 	}
@@ -72,31 +99,32 @@ public class WordDataSource {
 	public Cursor selectByTypes(String[] types){
 		Cursor cur;
 		if(types.length==0){
-			cur = this.getAll();
+			cur = this.getWordsInCategory(mCategoryId);
 		} else{
 			mSQLiteDb = mDbHelper.getReadableDatabase();
-			String queryString = "SELECT id as _id, * FROM " + VobNoteContract.Word.TABLE_NAME + " WHERE " + VobNoteContract.Word.COLUMN_NAME_TYPE + " = ?";
+			String queryString = "SELECT id as _id, * FROM " + VobNoteContract.Word.TABLE_NAME + " WHERE " +
+					VobNoteContract.Word.COLUMN_NAME_CATEGORY + " = " + mCategoryId + " AND (" +
+					VobNoteContract.Word.COLUMN_NAME_TYPE + " = ?";
 			for(int i=1; i<types.length; i++){
 				queryString += " OR " + VobNoteContract.Word.COLUMN_NAME_TYPE + " = ?";
 			}
+			queryString += ")";
 			cur = mSQLiteDb.rawQuery(queryString,types);
 		}
-	//	mSQLiteDb.close();
 		return cur;
 	}
 	
-	public Word getWord(int id){
+	public Word getWord(long id){
 		mSQLiteDb = mDbHelper.getReadableDatabase();
 		Cursor cur = mSQLiteDb.rawQuery("SELECT  * FROM " + VobNoteContract.Word.TABLE_NAME + " WHERE id = " + id,new String [] {});
 		if(cur.moveToFirst())
 		{
 			Word word = new Word();
-			word.setId(cur.getInt(cur.getColumnIndex(VobNoteContract.Word.COLUMN_NAME_WORD_ID)));
+			word.setId(cur.getLong(cur.getColumnIndex(VobNoteContract.Word.COLUMN_NAME_WORD_ID)));
 			word.setWord(cur.getString(cur.getColumnIndex(VobNoteContract.Word.COLUMN_NAME_WORD)));
 			word.setType(cur.getString(cur.getColumnIndex(VobNoteContract.Word.COLUMN_NAME_TYPE)));
 			word.setDefinition(cur.getString(cur.getColumnIndex(VobNoteContract.Word.COLUMN_NAME_DEFINITION)));
 			word.setExample(cur.getString(cur.getColumnIndex(VobNoteContract.Word.COLUMN_NAME_EXAMPLE)));
-			//mSQLiteDb.close();
 			return word;
 		}
 		cur.close();
@@ -106,7 +134,7 @@ public class WordDataSource {
 	
 	public ArrayList<Word> getWordArray(){
 		ArrayList<Word> arrWords = new ArrayList<Word>();
-		Cursor cur = this.getAll();
+		Cursor cur = this.getWordsInCategory(mCategoryId);
 		if(cur.moveToFirst()){// check if cursor is empty
 			do{
 				Word word = new Word();
