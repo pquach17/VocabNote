@@ -31,6 +31,11 @@
         <item>Restore</item>
     </string-array>
 
+<!-- strings for Sort dialog -->
+    <string name="a_to_z">A to Z</string>
+    <string name="z_to_a">Z to A</string>
+    <string name="oldest_first">Oldest first</string>
+    <string name="newest_first">Newest first</string>
 
     <string name="str_action_rename_list">Rename list</string>
     <string name="str_action_delete_list">Delete list</string>

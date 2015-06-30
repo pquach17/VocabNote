@@ -259,6 +259,9 @@
     <!-- From: file:/D:/AndroidDev/VocabNote/app/src/main/res/values/refs.xml -->
     <eat-comment/>
     <item name="fragment_word" type="layout">@layout/fragment_word_list</item>
+    <!-- From: file:/D:/AndroidDev/VocabNote/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="a_to_z">A to Z</string>
     <!-- From: file:/D:/AndroidDev/VocabNote/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/values/values.xml -->
     <eat-comment/>
     <string name="abc_action_bar_home_description">Navigate home</string>
@@ -340,6 +343,10 @@ available. Please contact the developer for assistance.</string>
     <string name="library_FloatingActionButton_libraryWebsite">https://github.com/makovkastar/FloatingActionButton</string>
     <string name="library_FloatingActionButton_licenseId">mit</string>
     <string name="library_FloatingActionButton_repositoryLink">https://github.com/makovkastar/FloatingActionButton</string>
+    <!-- From: file:/D:/AndroidDev/VocabNote/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="newest_first">Newest first</string>
+    <string name="oldest_first">Oldest first</string>
     <!-- From: file:/D:/AndroidDev/VocabNote/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.0.0/res/values/admob_strings.xml -->
     <eat-comment/>
     <string name="store_picture_message">"Allow Ad to store image in Picture gallery?"</string>
@@ -394,6 +401,9 @@ available. Please contact the developer for assistance.</string>
     <!-- From: file:/D:/AndroidDev/VocabNote/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/7.0.0/res/values/wallet_strings.xml -->
     <eat-comment/>
     <string name="wallet_buy_button_place_holder" translation_description="Text on a button that allows a user to make a payment with Google Wallet [CHAR LIMIT=30]">Buy with Google</string>
+    <!-- From: file:/D:/AndroidDev/VocabNote/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="z_to_a">Z to A</string>
     <!-- From: file:/D:/AndroidDev/VocabNote/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/values/values.xml -->
     <eat-comment/>
     <style name="Animation.AppCompat.DropDownUp" parent="Base.Animation.AppCompat.DropDownUp"/>

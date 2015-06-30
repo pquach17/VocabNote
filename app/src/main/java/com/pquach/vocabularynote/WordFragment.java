@@ -2,6 +2,7 @@ package com.pquach.vocabularynote;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -317,31 +318,34 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
 
     private void showSortDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Sort by")
-               .setSingleChoiceItems(R.array.sort_condition, mCheckedSortCondition, new DialogInterface.OnClickListener() {
-                   @Override
-                   public void onClick(DialogInterface dialog, int which) {
-                       mCheckedSortCondition = which;
-                       String[] arr = getResources().getStringArray(R.array.sort_condition);
-                       if (arr[which].equalsIgnoreCase("A to Z")) {
-                           mSortByWord = true;
-                           mAscending = true;
-                       } else if (arr[which].equalsIgnoreCase("Z to A")) {
-                           mSortByWord = true;
-                           mAscending = false;
-                       } else if (arr[which].equalsIgnoreCase("Oldest first")) {
-                           mSortByWord = false;
-                           mAscending = true;
-                       } else {
-                           mSortByWord = false;
-                           mAscending = false;
-                       }
-                       dialog.dismiss();
-                       mAdapter.changeCursor(sortWordList());
-                       mAdapter.notifyDataSetChanged();
-                   }
-               })
-               .create().show();
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        builder.setView(inflater.inflate(R.layout.dialog_sort, null))
+                .setTitle("Sort by")
+                /*
+                .setSingleChoiceItems(R.array.sort_condition, mCheckedSortCondition, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mCheckedSortCondition = which;
+                        String[] arr = getResources().getStringArray(R.array.sort_condition);
+                        if (arr[which].equalsIgnoreCase("A to Z")) {
+                            mSortByWord = true;
+                            mAscending = true;
+                        } else if (arr[which].equalsIgnoreCase("Z to A")) {
+                            mSortByWord = true;
+                            mAscending = false;
+                        } else if (arr[which].equalsIgnoreCase("Oldest first")) {
+                            mSortByWord = false;
+                            mAscending = true;
+                        } else {
+                            mSortByWord = false;
+                            mAscending = false;
+                        }
+                        dialog.dismiss();
+                        mAdapter.changeCursor(sortWordList());
+                        mAdapter.notifyDataSetChanged();
+                    }
+                })*/
+                .create().show();
         // Set title divider color
         /*
         int titleDividerId = getResources().getIdentifier("titleDivider", "id", "android");
