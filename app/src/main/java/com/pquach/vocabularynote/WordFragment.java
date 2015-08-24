@@ -1,5 +1,6 @@
 package com.pquach.vocabularynote;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,35 +9,49 @@ import android.content.Intent;
 import android.database.Cursor;
 
 import android.database.MatrixCursor;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.Spinner;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.melnykov.fab.FloatingActionButton;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 import java.util.Collections;
 import java.util.jar.Manifest;
+import java.util.zip.Inflater;
 
 /**
  * A fragment representing a list of Items.
@@ -257,29 +272,94 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
     private void showActivity(Class activityClass){
         Intent intent = new Intent();
         intent.putExtra(Constant.ARG_CATEGORY, mCategory);
-        intent.setClass(getActivity(),activityClass);
+        intent.setClass(getActivity(), activityClass);
         startActivity(intent);
     }
 
     private void showRenameListDialog(){
         final CategoryDataSource categoryDataSource = new CategoryDataSource(getActivity());
         final Category category = categoryDataSource.getCategoryById(mCategory);
-        final EditText input = new EditText(getActivity());
+        TextView title = Constant.createDialogTitle(getActivity(), "Rename word list", getResources().getColor(R.color.color_accent));
+        LayoutInflater inflater = getLayoutInflater(null);
+        View view = inflater.inflate(R.layout.dialog_edit_text_layout, null);
+        final EditText input = (EditText) view.findViewById(R.id.et_dialog);
         input.setText(category.getCategoryName());
+        final String oldText = input.getText().toString();
+        final AlertDialog  dialog = new AlertDialog.Builder(getActivity())
+                .setCustomTitle(title)
+                .setView(view)
+                .setPositiveButton("Rename", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .create();
+        dialog.show();
+
+        Constant.setDialogDividerColor(getActivity(), dialog, getResources().getColor(R.color.color_accent));
+        Button renameButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        renameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (input.getText().length() > 0) {
+                    category.setCategoryName(input.getText().toString());
+                    if (categoryDataSource.isCategoryNameUsed(category.getCategoryName())
+                            && !category.getCategoryName().equals(oldText)) {
+                        // This name is used, show error message
+                        Toast toast = Toast.makeText(getActivity(), "You already have a \""+input.getText().toString()
+                                +"\" list, please choose another name", Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 10);
+                        toast.show();
+                        return;
+                    }
+                    categoryDataSource.update(category);
+                    ((MainActivity) getActivity()).updateSpinner();
+                    dialog.dismiss();
+                }
+            }
+        });
+    }
+
+    private void showDeleteListDialog(){
+        TextView title = Constant.createDialogTitle(getActivity(), "Delete word list", getResources().getColor(R.color.color_accent));
+        final CategoryDataSource categoryDataSource = new CategoryDataSource(getActivity());
+        final Category category = categoryDataSource.getCategoryById(mCategory);
         AlertDialog  dialog = new AlertDialog.Builder(getActivity())
-                .setTitle("Rename word list")
-                .setView(input)
+                .setCustomTitle(title)
+                .setMessage("Deleting " + category.getCategoryName() + " will also DELETE ALL WORDS in it, continue?")
                 .create();
         DialogInterface.OnClickListener dialogOnClickListener = new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch(i){
                     case DialogInterface.BUTTON_POSITIVE:
-                        if(input.getText().length()>0) {
-                            category.setCategoryName(input.getText().toString());
-                            categoryDataSource.update(category);
-                            ((MainActivity)getActivity()).updateSpinner();
-                        }
+                        TextView title = Constant.createDialogTitle(getActivity(), "Delete " + category.getCategoryName(), getResources().getColor(R.color.color_accent));
+                        AlertDialog  dialog = new AlertDialog.Builder(getActivity())
+                                .setCustomTitle(title)
+                                .setMessage("Delete " + category.getCategoryName() + " anyway?")
+                                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Category.delete(getActivity(), mCategory);
+                                        ((MainActivity) getActivity()).updateSpinner();
+                                    }
+                                })
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                })
+                                .create();
+                        dialog.show();
+                        Constant.setDialogDividerColor(getActivity(), dialog, getResources().getColor(R.color.color_accent));
                         break;
                     case DialogInterface.BUTTON_NEGATIVE:
                         break;
@@ -287,41 +367,17 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
             }
         };
         dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", dialogOnClickListener);
-        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Rename", dialogOnClickListener);
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Continue", dialogOnClickListener);
         dialog.show();
+        Constant.setDialogDividerColor(getActivity(), dialog, getResources().getColor(R.color.color_accent));
     }
 
-    private void showDeleteListDialog(){
-        final CategoryDataSource categoryDataSource = new CategoryDataSource(getActivity());
-        final Category category = categoryDataSource.getCategoryById(mCategory);
-        AlertDialog  dialog = new AlertDialog.Builder(getActivity())
-                .setTitle("Delete word list")
-                .setMessage("Deleting")
-                .create();
-        DialogInterface.OnClickListener dialogOnClickListener = new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                switch(i){
-                    case DialogInterface.BUTTON_POSITIVE:
-                        Category.delete(getActivity(), mCategory);
-                        ((MainActivity)getActivity()).updateSpinner();
-                        break;
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        break;
-                }
-            }
-        };
-        dialog.setButton(DialogInterface.BUTTON_NEGATIVE,"Cancel", dialogOnClickListener);
-        dialog.setButton(DialogInterface.BUTTON_POSITIVE,"Delete", dialogOnClickListener);
-        dialog.show();
-    }
+
 
     private void showSortDialog(){
+        TextView title = Constant.createDialogTitle( getActivity(), "Sort by", getResources().getColor(R.color.color_accent));
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.dialog_sort, null))
-                .setTitle("Sort by")
-                /*
+        builder.setCustomTitle(title)
                 .setSingleChoiceItems(R.array.sort_condition, mCheckedSortCondition, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -344,20 +400,19 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
                         mAdapter.changeCursor(sortWordList());
                         mAdapter.notifyDataSetChanged();
                     }
-                })*/
-                .create().show();
+                })
+                .create();
+        AlertDialog dialog = builder.show();
         // Set title divider color
-        /*
-        int titleDividerId = getResources().getIdentifier("titleDivider", "id", "android");
-        View titleDivider = dialog.findViewById(titleDividerId);
-        if (titleDivider != null)
-            titleDivider.setBackgroundColor(getResources().getColor(android.R.color.holo_purple));
-            */
+        Constant.setDialogDividerColor(getActivity(), dialog, getResources().getColor(R.color.color_accent));
+
     }
 
+
     private void showFilterDialog(){
+        TextView title = Constant.createDialogTitle(getActivity(), "Select type(s)", getResources().getColor(R.color.color_accent));
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Select type(s)")
+        builder.setCustomTitle(title)
                .setMultiChoiceItems(R.array.spinner_type, mCheckedFilterConditions, new DialogInterface.OnMultiChoiceClickListener() {
                    @Override
                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
@@ -373,7 +428,10 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
                        mAdapter.notifyDataSetChanged();
                    }
                })
-               .create().show();
+               .create();
+        AlertDialog dialog = builder.show();
+        // Set title divider color
+        Constant.setDialogDividerColor(getActivity(), dialog, getResources().getColor(R.color.color_accent));
     }
 
 
@@ -442,6 +500,7 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
         }
         return cur;
     }
+
     public interface OnFragmentInteractionListener{
         public void onFragmentInteraction(long id);
     }

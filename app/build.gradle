@@ -2,6 +2,13 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
+
+        debug_with_release_key {
+            keyAlias 'pquach_release_key'
+            keyPassword 'Ptkc38Qc$pquach17'
+            storeFile file('D:/VocNote/Released_APK/Release key/android-app-release-key.keystore')
+            storePassword 'pquach17^Ptkc38Qc'
+        }
     }
     compileSdkVersion 22
     buildToolsVersion "22.0.0"
@@ -14,6 +21,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+        debug {
+            signingConfig signingConfigs.debug_with_release_key
         }
     }
 }

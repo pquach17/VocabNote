@@ -11,6 +11,7 @@ public class Word {
 	private String mDefinition;
 	//String mTranslation;
 	private String mExample;
+	private long mCategory;
 	//Date mCreatedDate;
 	
 	
@@ -60,7 +61,15 @@ public class Word {
 	{
 		mExample = value;
 	}
-	
+
+	public long getCategory()
+	{
+		return mCategory;
+	}
+	public void setCategory(long value)
+	{
+		mCategory = value;
+	}
 	public static class WordComparator implements Comparator<Word>{
 		@Override
 		public int compare(Word lhs, Word rhs) {

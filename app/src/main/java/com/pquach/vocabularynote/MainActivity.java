@@ -3,6 +3,7 @@ package com.pquach.vocabularynote;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -33,11 +34,14 @@ import android.support.v4.app.FragmentManager;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -148,11 +152,10 @@ android.support.v4.app.FragmentManager.OnBackStackChangedListener{
 	}
 
     private void initNavigationSpinner(){
-
         Cursor cursor = loadCategoryData();
-        mSpinnerAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, cursor,
-               new String[]{VobNoteContract.Category.COLUMN_NAME_CATEGORY_NAME}, new int[]{ android.R.id.text1}, 0);
-        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinnerAdapter = new SimpleCursorAdapter(this,R.layout.spinner_textview, cursor,
+               new String[]{VobNoteContract.Category.COLUMN_NAME_CATEGORY_NAME}, new int[]{ R.id.spinner_textview}, 0);
+        mSpinnerAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item_custom);
         mNavigationSpinner.setAdapter(mSpinnerAdapter);
         mNavigationSpinner.setSelection(mList);
         mNavigationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -179,13 +182,14 @@ android.support.v4.app.FragmentManager.OnBackStackChangedListener{
     private Cursor loadCategoryData(){
         CategoryDataSource dataSource = new CategoryDataSource(this);
         Cursor cursor = dataSource.getAll();
+        /*
         if(cursor.getCount()<1){
             // if no List exists, create a default List 1
             Category category = new Category();
             category.setCategoryName("List 1");
             dataSource.insert(category);
             cursor = dataSource.getAll();
-        }
+        }*/
         MatrixCursor extras = new MatrixCursor(cursor.getColumnNames());
         extras.addRow(new String[]{"-1", "-1", "New List"});
         Cursor[] cursors = { extras, cursor };
@@ -227,38 +231,57 @@ android.support.v4.app.FragmentManager.OnBackStackChangedListener{
     }
 
     private void showCreateCategoryDialog(){
-        final EditText input = new EditText(this);
-        AlertDialog  dialog = new AlertDialog.Builder(this)
-                .setTitle("Create word list")
-                .setView(input)
+        TextView title = Constant.createDialogTitle(this, "Create word list", getResources().getColor(R.color.color_accent));
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialog_edit_text_layout, null);
+        final EditText input = (EditText) view.findViewById(R.id.et_dialog);
+        final AlertDialog  dialog = new AlertDialog.Builder(this)
+                .setCustomTitle(title)
+                .setView(view)
+                .setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
                 .create();
-        DialogInterface.OnClickListener dialogOnClickListener = new DialogInterface.OnClickListener(){
+        dialog.show();
+        Constant.setDialogDividerColor(this, dialog, getResources().getColor(R.color.color_accent));
+        Button createButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        createButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                switch(i){
-                    case DialogInterface.BUTTON_POSITIVE:
-                        if(input.getText().length()>0) {
-                            Category category = new Category();
-                            category.setCategoryName(Constant.capitalizeEachWord(input.getText().toString()));
-                            CategoryDataSource categoryDataSource = new CategoryDataSource(getApplicationContext());
-                            categoryDataSource.insert(category);
-                            updateSpinner();
-                            mNavigationSpinner.setSelection(mNavigationSpinner.getCount() - 1);
-                            // start newly created word list
-                            Bundle args = new Bundle();
-                            args.putLong(Constant.ARG_CATEGORY, mNavigationSpinner.getSelectedItemId());
-                            onFragmentInteraction(WordFragment.TAG, args);
-                        }
-                        break;
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        break;
+            public void onClick(View view) {
+                if (input.getText().length() > 0) {
+                    Category category = new Category();
+                    category.setCategoryName(input.getText().toString());
+                    CategoryDataSource categoryDataSource = new CategoryDataSource(getApplicationContext());
+                    if (categoryDataSource.isCategoryNameUsed(category.getCategoryName())) {
+                        // This name is used, show error message
+                        Toast.makeText(getApplicationContext(), "This name is used, please enter another name", Toast.LENGTH_LONG).show();
+                        mNavigationSpinner.setSelection(mList);
+                        return;
+                    }
+                    if (categoryDataSource.insert(category) != -1) {
+                        updateSpinner();
+                        mList = mNavigationSpinner.getCount() - 1;
+                        mNavigationSpinner.setSelection(mList);
+
+                        // start newly created word list
+                        Bundle args = new Bundle();
+                        args.putLong(Constant.ARG_CATEGORY, mNavigationSpinner.getSelectedItemId());
+                        onFragmentInteraction(WordFragment.TAG, args);
+                    }
+                    dialog.dismiss();
                 }
             }
-        };
-        dialog.setButton(DialogInterface.BUTTON_NEGATIVE,"Cancel", dialogOnClickListener);
-        dialog.setButton(DialogInterface.BUTTON_POSITIVE,"Create", dialogOnClickListener);
-        dialog.show();
-
+        });
+        mNavigationSpinner.setSelection(mList);
     }
 
     @Override

@@ -1,5 +1,10 @@
 package com.pquach.vocabularynote;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.view.View;
+import android.widget.TextView;
+
 /**
  * Created by HP on 28/05/2015.
  */
@@ -15,5 +20,21 @@ public final class Constant {
         }
 
         return result.trim();
+    }
+
+    public static TextView createDialogTitle(Context context, String titleText, int color){
+        TextView title = new TextView(context);
+        title.setText(titleText);
+        title.setTextSize(25);
+        title.setPadding(30, 30, 30, 30);
+        title.setTextColor(color);
+        return title;
+    }
+
+    public static void setDialogDividerColor(Context context, AlertDialog dialog, int color){
+        int titleDividerId = context.getResources().getIdentifier("titleDivider", "id", "android");
+        View titleDivider = dialog.findViewById(titleDividerId);
+        if (titleDivider != null)
+            titleDivider.setBackgroundColor(color);
     }
 }

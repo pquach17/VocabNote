@@ -26,6 +26,8 @@
     </style>
 
     <style name="AppBaseTheme.DetailText" parent="android:style/TextAppearance.Medium">
+    </style>
 
+    <style name="AppBaseTheme.Spinner.Text" parent="android:style/TextAppearance.Medium">
     </style>
 </resources>

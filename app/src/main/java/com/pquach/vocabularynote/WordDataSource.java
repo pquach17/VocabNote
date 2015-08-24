@@ -13,6 +13,9 @@ public class WordDataSource {
 	private DatabaseHelper mDbHelper;
 	private long mCategoryId;
 
+	public WordDataSource(Context context){
+		mDbHelper = new DatabaseHelper(context);
+	}
 	
 	public WordDataSource(Context context, long categoryId){
 		mDbHelper = new DatabaseHelper(context);
@@ -43,6 +46,7 @@ public class WordDataSource {
 		values.put(VobNoteContract.Word.COLUMN_NAME_TYPE, word.getType());
 		values.put(VobNoteContract.Word.COLUMN_NAME_DEFINITION, word.getDefinition());
 		values.put(VobNoteContract.Word.COLUMN_NAME_EXAMPLE, word.getExample());
+		values.put(VobNoteContract.Word.COLUMN_NAME_CATEGORY, word.getCategory());
 		long isDone = mSQLiteDb.update(VobNoteContract.Word.TABLE_NAME, values, "id=?", new String[]{String.valueOf(word.getId())});
 		mSQLiteDb.close();
 		return isDone;

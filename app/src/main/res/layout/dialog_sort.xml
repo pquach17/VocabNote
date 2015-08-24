@@ -2,26 +2,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_primary">
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="15dp">
     <TextView
+        android:id="@+id/sort_A_Z"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_action_alphabet_ascen"
+
+        android:gravity="center_vertical"
+
+        android:text="@string/a_to_z"/>
+    <TextView
+        android:id="@+id/sort_Z_A"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_action_alphabet_descen"
+        android:gravity="center_vertical"
+        android:text="@string/z_to_a"/>
+    <TextView
+        android:id="@+id/sort_oldest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/ic_sort_alphabetical"
         android:gravity="center_vertical"
-        android:text="@string/a_to_z"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_sort_alphabetical"
-        android:text="@string/z_to_a"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_sort_alphabetical"
         android:text="@string/oldest_first"/>
     <TextView
+        android:id="@+id/sort_newest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/ic_sort_alphabetical"
+        android:gravity="center_vertical"
         android:text="@string/newest_first"/>
 </LinearLayout>

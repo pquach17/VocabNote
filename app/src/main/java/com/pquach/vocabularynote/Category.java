@@ -10,6 +10,9 @@ public class Category {
     private String mCategoryName;
 
     public Category(){}
+    public Category(String categoryName){
+        mCategoryName = categoryName;
+    }
 
     public long getId(){
         return mId;
@@ -36,4 +39,6 @@ public class Category {
         }
         return result;
     }
+
+
 }

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" 
-    xmlns:vocabnote="http://schemas.android.com/apk/res-auto" >
+    xmlns:vocabnote="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/empty"
+        android:icon="@drawable/ic_action_overflow"
+        vocabnote:showAsAction="always">
+        <menu>
     <item
         android:id="@+id/action_sort"
         android:title="@string/str_action_sort"
@@ -17,6 +22,7 @@
 
     <item
         android:id="@+id/action_rename_list"
+        android:icon="@drawable/ic_action_edit"
         android:title="@string/str_action_rename_list"
         vocabnote:showAsAction="never" />
 
@@ -38,4 +44,5 @@
         android:id="@+id/action_settings"
         android:title="@string/str_action_settings"
         vocabnote:showAsAction="never" />
+    </menu></item>
 </menu>

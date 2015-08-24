@@ -67,4 +67,18 @@ public class CategoryDataSource {
         mSQLiteDb.close();
         return null;
     }
+
+    public Cursor  getCategoriesByName(String categoryName){
+        mSQLiteDb = mDbHelper.getReadableDatabase();
+        Cursor cur = mSQLiteDb.rawQuery("SELECT  * FROM " + VobNoteContract.Category.TABLE_NAME +
+                " WHERE "+ VobNoteContract.Category.COLUMN_NAME_CATEGORY_NAME +" = '" + categoryName +"'", new String [] {});
+        return cur;
+    }
+
+    public boolean isCategoryNameUsed(String categoryName){
+        Cursor cur = getCategoriesByName(categoryName);
+        if(cur.getCount()>0)
+            return true;
+        return false;
+    }
 }
