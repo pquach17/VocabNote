@@ -71,6 +71,7 @@
     <color name="color_accent">#00C853</color>
     <color name="color_body_text">#606060</color>
     <color name="color_label_text">#949494</color>
+    <color name="color_list_secodary_row_text">#676767</color>
     <color name="color_primary">#388E3C</color>
     <color name="color_primary_dark">#1B5E20</color>
     <color name="color_primary_pressed">#1B5E20</color>

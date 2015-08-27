@@ -123,8 +123,8 @@ public class FlashCardActivity extends ActionBarActivity implements AnimationLis
 	protected void InitializeArrays(){
 		mWordIdArray = new ArrayList<Integer>();
 		// Load data
-		WordDataSource wordds = new WordDataSource(this, mList);
-		mWordArray = wordds.getWordArray();
+		WordDataSource wordds = new WordDataSource(this);
+		mWordArray = wordds.getWordArray(mList);
 	}
 	
 	private void createCardLayout(){

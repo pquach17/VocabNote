@@ -9,5 +9,6 @@
     <color name="color_body_text">#606060</color>
     <color name="color_label_text">#949494</color>
     <color name="color_white">#FFFFFF</color>
+    <color name="color_list_secodary_row_text">#676767</color>
 
 </resources>

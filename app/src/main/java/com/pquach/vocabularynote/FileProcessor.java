@@ -41,8 +41,8 @@ public class FileProcessor {
         CategoryDataSource catds = new CategoryDataSource(mContext);
         WordDataSource wordds = new WordDataSource(mContext);
 
-        Cursor cats = catds.getAll();
-        Cursor words = wordds.getFromAllCategory();
+        Cursor cats = catds.getAllCategories();
+        Cursor words = wordds.getWordsFromAllCategories();
         return writeFile(outstr, cats, words);
     }
 
@@ -70,7 +70,7 @@ public class FileProcessor {
 
         // Insert mArrayWords into database
         for(int i=0; i<mArrayWords.length; i++){
-            WordDataSource dataSource = new WordDataSource(mContext, mArrayWords[i].getCategory());
+            WordDataSource dataSource = new WordDataSource(mContext);
             if(dataSource.insert(mArrayWords[i])==-1){
                 return false;
             }

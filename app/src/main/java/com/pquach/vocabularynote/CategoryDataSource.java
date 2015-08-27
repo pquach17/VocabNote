@@ -40,14 +40,14 @@ public class CategoryDataSource {
     }
 
     public long delete (long id){
-        String[] ids = {String.valueOf(id)};
+        String[] whereArgs = {String.valueOf(id)};
         mSQLiteDb = mDbHelper.getReadableDatabase();
-        long isDone = mSQLiteDb.delete(VobNoteContract.Category.TABLE_NAME, "id = ?", ids);
+        long isDone = mSQLiteDb.delete(VobNoteContract.Category.TABLE_NAME, "id = ?", whereArgs);
         mSQLiteDb.close();
         return isDone;
     }
 
-    public Cursor getAll(){
+    public Cursor getAllCategories(){
         mSQLiteDb = mDbHelper.getReadableDatabase();
         Cursor cur = mSQLiteDb.rawQuery("SELECT id as _id, * FROM " + VobNoteContract.Category.TABLE_NAME,new String [] {});
         return cur;

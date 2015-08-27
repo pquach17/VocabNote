@@ -100,7 +100,7 @@ public class WordDetailFragment extends BaseFragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_word_detail, container, false);
 
-        WordDataSource worddds = new WordDataSource(getActivity(), mCategory);
+        WordDataSource worddds = new WordDataSource(getActivity());
         mWord = worddds.getWord(mWordId);
 
         // Get controls' reference
@@ -180,7 +180,7 @@ public class WordDetailFragment extends BaseFragment{
     }
 
     private void delete(long wordId){
-        WordDataSource wordds = new WordDataSource(getActivity(), mCategory);
+        WordDataSource wordds = new WordDataSource(getActivity());
         wordds.delete(String.valueOf(wordId));
         wordds.close();
     }

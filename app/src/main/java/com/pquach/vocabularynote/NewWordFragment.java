@@ -109,7 +109,7 @@ public class NewWordFragment extends BaseFragment implements View.OnClickListene
         // Check if Edit mode is selected
         // mWordId >= 0 only when user selected Edit, otherwise New Word was selected
         if(mWordId >= 0){
-            WordDataSource wordds = new WordDataSource(getActivity(), mCategoryId);
+            WordDataSource wordds = new WordDataSource(getActivity());
             Word word = wordds.getWord(mWordId);
             if(word != null){
                 edit_word.setText(word.getWord());
@@ -212,7 +212,8 @@ public class NewWordFragment extends BaseFragment implements View.OnClickListene
         word.setType(spin_type.getSelectedItem().toString());
         word.setDefinition(edit_definition.getText().toString());
         word.setExample(edit_example.getText().toString());
-        WordDataSource wordds =  new WordDataSource(getActivity(), mCategoryId);
+        word.setCategory(mCategoryId);
+        WordDataSource wordds =  new WordDataSource(getActivity());
         if(mWordId >= 0){
             // In Edit mode
             word.setId(mWordId);

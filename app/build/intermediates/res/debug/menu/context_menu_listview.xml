@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:vocabnote="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/context_delete"
         android:title="@string/str_context_delete"
-        android:icon="@drawable/ic_action_discard"/>
+        android:icon="@drawable/ic_action_discard"
+        vocabnote:showAsAction="always"
+       />
 
 </menu>
 <!-- From: file:/D:/Android%20Studio%20Projects/VocabNote/app/src/main/res/menu/context_menu_listview.xml -->

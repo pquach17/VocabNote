@@ -11,8 +11,12 @@
         <item name="colorAccent">@color/color_accent</item>
         <item name="android:textColorPrimary">@color/color_body_text</item>
 
+        <!-- style for Contextual Action Mode -->
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:actionModeBackground">@color/color_primary</item>
+        <item name="actionModeBackground">@color/color_primary</item>
     </style>
-
 
     <!-- Label text style -->
     <style name="AppBaseTheme.LabelText" parent="@android:style/TextAppearance.Medium">
@@ -24,10 +28,21 @@
         <item name="android:textColor">@color/color_label_text</item>
         <item name="android:gravity">center</item>
     </style>
-
+    
+    <!-- word detail text style -->
     <style name="AppBaseTheme.DetailText" parent="android:style/TextAppearance.Medium">
     </style>
-
+    
+    <!-- spinner text style -->
     <style name="AppBaseTheme.Spinner.Text" parent="android:style/TextAppearance.Medium">
+    </style>
+    
+    <!-- list view text style -->
+    <style name="AppBaseTheme.ListRowMainText" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="AppBaseTheme.ListRowSecondaryText" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">@color/color_list_secodary_row_text</item>
+        <item name="android:textStyle">italic</item>
     </style>
 </resources>

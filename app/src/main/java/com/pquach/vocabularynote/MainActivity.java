@@ -67,6 +67,9 @@ android.support.v4.app.FragmentManager.OnBackStackChangedListener{
     private WordFragment mWorkFragment;
     private DictionaryWebFragment mDictionaryWebFragment;
 
+    public Toolbar getToolbar(){
+        return mToolBar;
+    }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -181,7 +184,7 @@ android.support.v4.app.FragmentManager.OnBackStackChangedListener{
 
     private Cursor loadCategoryData(){
         CategoryDataSource dataSource = new CategoryDataSource(this);
-        Cursor cursor = dataSource.getAll();
+        Cursor cursor = dataSource.getAllCategories();
         /*
         if(cursor.getCount()<1){
             // if no List exists, create a default List 1

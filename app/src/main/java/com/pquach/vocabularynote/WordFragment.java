@@ -1,25 +1,18 @@
 package com.pquach.vocabularynote;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
+
+import android.app.AlertDialog;;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-
 import android.database.MatrixCursor;
-import android.graphics.Rect;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-
-
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,31 +20,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
-
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 import com.melnykov.fab.FloatingActionButton;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-
 import java.util.Collections;
-import java.util.jar.Manifest;
-import java.util.zip.Inflater;
+import android.view.ActionMode;
+
 
 /**
  * A fragment representing a list of Items.
@@ -110,7 +93,13 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
     private int mCheckedSortCondition;
     private boolean[] mCheckedFilterConditions;
 
-    // TODO: Rename and change types of parameters
+    private android.support.v7.view.ActionMode mActionMode = null;
+    /**
+     * mCABCheckedItems saves checked items when in contextual action bar (CAB) mode
+     */
+    private ArrayList mCABCheckedItems;
+
+
     public static WordFragment newInstance(long category) {
         WordFragment fragment = new WordFragment();
         Bundle args = new Bundle();
@@ -167,15 +156,14 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_word, container, false);
 
-
         // Load data to the Cursor
         mCursor = filter();
         mCursor = sortWordList();
 
         // Setup SimpleCursorAdapter
         String[] from = {VobNoteContract.Word.COLUMN_NAME_WORD, VobNoteContract.Word.COLUMN_NAME_TYPE};
-        int[] to = {android.R.id.text1, android.R.id.text2};
-        mAdapter = new SimpleCursorAdapter(getActivity(),android.R.layout.simple_list_item_2, mCursor, from, to, 0);
+        int[] to = {R.id.tv_list_row, R.id.tv_list_row_type};
+        mAdapter = new SimpleCursorAdapter(getActivity(),R.layout.word_list_layout, mCursor, from, to, 0);
 
 
         // Set the adapter
@@ -184,6 +172,70 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
+
+        int version = Build.VERSION.SDK_INT;
+        mCABCheckedItems = new ArrayList();
+        if(version > 11){
+            // Setup Contextual Action Bar Mode
+            mListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+            mListView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+                int defaultColor = mListView.getSolidColor();
+                int selectedColor = getResources().getColor(android.R.color.holo_blue_light);
+
+                @Override
+                public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+                    mode.setTitle(mListView.getCheckedItemCount() + " selected");
+                    if(checked){
+                        mCABCheckedItems.add(id);
+                        mListView.getChildAt(position).setBackgroundColor(selectedColor); // seleted state color
+                    }else {
+                        mListView.getChildAt(position).setBackgroundColor(defaultColor); // default color
+                        mCABCheckedItems.remove(id);
+                    }
+                }
+
+                @Override
+                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                    MenuInflater inflater = mode.getMenuInflater();
+                    inflater.inflate(R.menu.context_menu_listview, menu);
+                    return true;
+                }
+
+                @Override
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                   return false;
+                }
+
+                @Override
+                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    switch (item.getItemId()){
+                        case R.id.context_delete:
+                            showDeleteWordDialog(mode, mCABCheckedItems);
+
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+                @Override
+                public void onDestroyActionMode(ActionMode mode) {
+
+                    mCABCheckedItems.clear();
+
+                    // Set background color back to default color
+                    for (int i = 0; i < mListView.getChildCount(); i++) {
+                        mListView.getChildAt(i).setBackgroundColor(defaultColor);
+                    }
+
+
+
+                }
+            });
+
+        }else {
+            // Setup Contextual Floating Menu
+        }
+
 
         // Set up Floating Action Button and add it to List View
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
@@ -211,7 +263,7 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-       inflater.inflate(R.menu.activity_main_actions, menu);
+        inflater.inflate(R.menu.activity_main_actions, menu);
     }
 
     @Override
@@ -250,10 +302,17 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Bundle args = new Bundle();
-        args.putLong(Constant.ARG_WORD_ID, id);
-        args.putLong(Constant.ARG_CATEGORY, mCategory);
-        startFragment(WordDetailFragment.TAG, args);
+
+        if(mActionMode == null) {
+            Bundle args = new Bundle();
+            args.putLong(Constant.ARG_WORD_ID, id);
+            args.putLong(Constant.ARG_CATEGORY, mCategory);
+            startFragment(WordDetailFragment.TAG, args);
+        }else{
+            view.setSelected(!view.isSelected());
+            mCABCheckedItems.add(id);
+
+        }
     }
 
     /**
@@ -274,6 +333,34 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
         intent.putExtra(Constant.ARG_CATEGORY, mCategory);
         intent.setClass(getActivity(), activityClass);
         startActivity(intent);
+    }
+
+    private void showDeleteWordDialog(final ActionMode mode, final ArrayList wordIds){
+        TextView title = Constant.createDialogTitle(getActivity(), "Delete", getResources().getColor(R.color.color_accent));
+        AlertDialog  dialog = new AlertDialog.Builder(getActivity())
+                .setCustomTitle(title)
+                .setMessage("Delete "+wordIds.size()+" word(s)?")
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        WordDataSource wordDataSource = new WordDataSource(getActivity());
+                        for(int i=0;i< wordIds.size(); i++){
+                            wordDataSource.delete(String.valueOf(wordIds.get(i)));
+                        }
+                        mAdapter.swapCursor(wordDataSource.getWordsInCategory(mCategory));
+                        mAdapter.notifyDataSetChanged();
+                        mode.finish();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create();
+        dialog.show();
+
     }
 
     private void showRenameListDialog(){
@@ -458,7 +545,7 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
     }
 
     private Cursor filter(){
-        WordDataSource wordds = new WordDataSource(getActivity(), mCategory);
+        WordDataSource wordds = new WordDataSource(getActivity());
         ArrayList<String> selectedTypes = new ArrayList<String>();
         String[] arrTypes = getResources().getStringArray(R.array.spinner_type);
 
@@ -467,7 +554,7 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
                 selectedTypes.add(arrTypes[i]);
             }
         }
-        return wordds.selectByTypes(selectedTypes.toArray(new String[selectedTypes.size()]));
+        return wordds.selectByTypes(selectedTypes.toArray(new String[selectedTypes.size()]), mCategory);
     }
 
     private ArrayList<Word> copyCursorToArray(Cursor cur){
