@@ -92,8 +92,8 @@ public class BackupActivity extends BaseGoogleDriveActivity{
                         Write file content to OutputStream
                      */
                     OutputStream outputStream = result.getDriveContents().getOutputStream();
-                    FileProcessor fileProcessor = new FileProcessor(getApplicationContext());
-                    if(!fileProcessor.exportData(outputStream)){
+                    JSONProcessor jsonProcessor = new JSONProcessor(getApplicationContext());
+                    if(!jsonProcessor.exportData(outputStream)){
                         Log.i(TAG,"Error while writing file to OutputStream");
                         showMessage("Error while writing file");
                         return;
@@ -106,9 +106,9 @@ public class BackupActivity extends BaseGoogleDriveActivity{
                     String fileTitle = dateFormat.format(backupDate);
                     CustomPropertyKey filePropertyKey = new CustomPropertyKey("file",CustomPropertyKey.PRIVATE);
                     MetadataChangeSet changeSetBuilder = new MetadataChangeSet.Builder()
-                            .setMimeType("text/plain")
+                            .setMimeType("application/json")
                             .setCustomProperty(filePropertyKey,"file")
-                            .setTitle(fileTitle+".vob").build();
+                            .setTitle(fileTitle+".json").build();
                     IntentSender intentSender = Drive.DriveApi
                             .newCreateFileActivityBuilder()
                             .setInitialMetadata(changeSetBuilder)

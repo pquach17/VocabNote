@@ -29,8 +29,8 @@ public class Category {
     public static long delete(Context context, long categoryId){
         long result = 0;
         // delete all data in this category
-        WordDataSource wordDataSource = new WordDataSource(context,categoryId);
-        wordDataSource.deleteByCategory();
+        WordDataSource wordDataSource = new WordDataSource(context);
+        wordDataSource.deleteWordsInCategory(categoryId);
         long i = wordDataSource.getWordsInCategory(categoryId).getCount();
         if( i < 1){
             // delete this category
