@@ -187,8 +187,8 @@ public class RestoreActivity extends BaseGoogleDriveActivity {
             DriveContents driveContents = driveContentsResult.getDriveContents();
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(driveContents.getInputStream()));
-            FileProcessor fileProcessor = new FileProcessor(RestoreActivity.this);
-            Boolean result = fileProcessor.importData(reader);
+            JSONProcessor jsonProcessor = new JSONProcessor(RestoreActivity.this);
+            Boolean result = jsonProcessor.importData(reader);
 
             driveContents.discard(getGoogleApiClient());
             return result;

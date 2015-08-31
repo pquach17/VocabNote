@@ -70,6 +70,15 @@ public class WordDataSource {
 		return cur;
 	}
 
+	public Cursor selectWordJoinCategory(){
+		mSQLiteDb = mDbHelper.getReadableDatabase();
+		Cursor cur = mSQLiteDb.rawQuery("SELECT * FROM " + VobNoteContract.Word.TABLE_NAME +
+				" INNER JOIN " + VobNoteContract.Category.TABLE_NAME +
+				" ON "+VobNoteContract.Word.TABLE_NAME + "." + VobNoteContract.Word.COLUMN_NAME_CATEGORY + "=" +
+				VobNoteContract.Category.TABLE_NAME + "." + VobNoteContract.Category.COLUMN_NAME_CATEGORY_ID,new String [] {});
+		return cur;
+	}
+
 	/**
 	 * select Word table with a category id in the WHERE clause
 	 * @param categoryId
