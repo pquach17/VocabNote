@@ -93,7 +93,6 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
     private int mCheckedSortCondition;
     private boolean[] mCheckedFilterConditions;
 
-    private android.support.v7.view.ActionMode mActionMode = null;
     /**
      * mCABCheckedItems saves checked items when in contextual action bar (CAB) mode
      */
@@ -211,27 +210,21 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
                     switch (item.getItemId()){
                         case R.id.context_delete:
                             showDeleteWordDialog(mode, mCABCheckedItems);
-
                             return true;
                         default:
                             return false;
                     }
                 }
+
                 @Override
                 public void onDestroyActionMode(ActionMode mode) {
-
                     mCABCheckedItems.clear();
-
                     // Set background color back to default color
                     for (int i = 0; i < mListView.getChildCount(); i++) {
                         mListView.getChildAt(i).setBackgroundColor(defaultColor);
                     }
-
-
-
                 }
             });
-
         }else {
             // Setup Contextual Floating Menu
         }
@@ -302,17 +295,10 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        if(mActionMode == null) {
-            Bundle args = new Bundle();
-            args.putLong(Constant.ARG_WORD_ID, id);
-            args.putLong(Constant.ARG_CATEGORY, mCategory);
-            startFragment(WordDetailFragment.TAG, args);
-        }else{
-            view.setSelected(!view.isSelected());
-            mCABCheckedItems.add(id);
-
-        }
+        Bundle args = new Bundle();
+        args.putLong(Constant.ARG_WORD_ID, id);
+        args.putLong(Constant.ARG_CATEGORY, mCategory);
+        startFragment(WordDetailFragment.TAG, args);
     }
 
     /**

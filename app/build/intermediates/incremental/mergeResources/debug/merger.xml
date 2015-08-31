@@ -1815,7 +1815,7 @@ available. Please contact the developer for assistance.</string><string msgid="6
         <item>Z to A</item>
         <item>Oldest first</item>
         <item>Newest first</item>
-    </string-array><string name="oldest_first">Oldest first</string><string name="str_btn_save">Save</string><string name="str_action_settings">Settings</string><string name="str_pref_dictionary_title">Dictionary</string><string-array name="pref_dictionary_entries">
+    </string-array><string name="oldest_first">Oldest first</string><string name="roboto">Roboto</string><string name="str_btn_save">Save</string><string name="str_action_settings">Settings</string><string name="str_pref_dictionary_title">Dictionary</string><string-array name="pref_dictionary_entries">
         <item>Longman dictionary</item>
         <item>Merriam-Webster dictionary</item>
         <item>Ask user</item>
@@ -1834,6 +1834,8 @@ available. Please contact the developer for assistance.</string><string msgid="6
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
         <item name="android:textColorPrimary">@color/color_body_text</item>
+
+
 
         <!-- style for Contextual Action Mode -->
         <item name="android:windowActionModeOverlay">true</item>

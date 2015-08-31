@@ -95,7 +95,7 @@ android.support.v4.app.FragmentManager.OnBackStackChangedListener{
         }else {
             mList = savedInstanceState.getInt(Constant.ARG_CATEGORY);
             mNavigationSpinner.setSelection(mList);
-            mWorkFragment = (WordFragment) getSupportFragmentManager().findFragmentByTag(WordFragment.TAG);
+           // mWorkFragment = (WordFragment) getSupportFragmentManager().findFragmentByTag(WordFragment.TAG);
         }
 
 	}
@@ -104,6 +104,7 @@ android.support.v4.app.FragmentManager.OnBackStackChangedListener{
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(Constant.ARG_CATEGORY, mList);
+
     }
 
     @Override

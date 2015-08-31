@@ -11,12 +11,16 @@
         <item name="colorAccent">@color/color_accent</item>
         <item name="android:textColorPrimary">@color/color_body_text</item>
 
+
+
         <!-- style for Contextual Action Mode -->
         <item name="android:windowActionModeOverlay">true</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="android:actionModeBackground">@color/color_primary</item>
         <item name="actionModeBackground">@color/color_primary</item>
     </style>
+
+
 
     <!-- Label text style -->
     <style name="AppBaseTheme.LabelText" parent="@android:style/TextAppearance.Medium">

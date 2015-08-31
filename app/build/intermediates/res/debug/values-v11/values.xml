@@ -9,6 +9,8 @@
         <item name="colorAccent">@color/color_accent</item>
         <item name="android:textColorPrimary">@color/color_body_text</item>
 
+
+
         <!-- style for Contextual Action Mode -->
         <item name="android:windowActionModeOverlay">true</item>
         <item name="windowActionModeOverlay">true</item>
