@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
+import android.database.MergeCursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
@@ -59,12 +60,23 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
      */
     private long mCategory;
 
+    /**
+     * the selected item in word list spinner
+     */
+    private int mList = 1;
+
 
     /**
      * The fragment's ListView/GridView.
      */
     private AbsListView mListView;
+
+    /**
+     * Spinner for selecting word list (category)
+     */
     private Spinner mNavigationSpinner;
+    private SimpleCursorAdapter mSpinnerAdapter;
+
     /**
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
@@ -99,11 +111,8 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
     private ArrayList mCABCheckedItems;
 
 
-    public static WordFragment newInstance(long category) {
+    public static WordFragment newInstance() {
         WordFragment fragment = new WordFragment();
-        Bundle args = new Bundle();
-        args.putLong(Constant.ARG_CATEGORY, category);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -131,12 +140,7 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
             mCheckedFilterConditions = savedInstanceState.getBooleanArray(ARG_CHECKED_FILTER_CONDITIONS);
             mCategory = savedInstanceState.getLong(Constant.ARG_CATEGORY);
         }else{
-            // Initial state of the list will be sorting by "Oldest first",
-            // and filtering by full list of word types
-            mSortByWord = false;
-            mAscending = true;
-            mCheckedSortCondition = 2;
-            mCheckedFilterConditions = new boolean[getResources().getStringArray(R.array.spinner_type).length];
+            setSortingAndFilterToDefault();
         }
     }
 
@@ -154,6 +158,12 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_word, container, false);
+
+        // Set up list navigation spinner
+        mNavigationSpinner = (Spinner) getActivity().findViewById(R.id.spinner_nav);
+        initNavigationSpinner();
+
+        mCategory = mNavigationSpinner.getSelectedItemId();
 
         // Load data to the Cursor
         mCursor = filter();
@@ -228,7 +238,6 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
         }else {
             // Setup Contextual Floating Menu
         }
-
 
         // Set up Floating Action Button and add it to List View
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
@@ -314,6 +323,15 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
         }
     }
 
+    private void setSortingAndFilterToDefault(){
+        // Initial state of the list will be sorting by "Oldest first",
+        // and filtering by full list of word types
+        mSortByWord = false;
+        mAscending = true;
+        mCheckedSortCondition = 2;
+        mCheckedFilterConditions = new boolean[getResources().getStringArray(R.array.spinner_type).length];
+    }
+
     private void showActivity(Class activityClass){
         Intent intent = new Intent();
         intent.putExtra(Constant.ARG_CATEGORY, mCategory);
@@ -347,6 +365,111 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
                 .create();
         dialog.show();
 
+    }
+
+    private void initNavigationSpinner(){
+        Cursor cursor = loadCategoryData();
+        mSpinnerAdapter = new SimpleCursorAdapter(getActivity(), R.layout.spinner_textview, cursor,
+                new String[]{VobNoteContract.Category.COLUMN_NAME_CATEGORY_NAME}, new int[]{ R.id.spinner_textview}, 0);
+        mSpinnerAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item_custom);
+        mNavigationSpinner.setAdapter(mSpinnerAdapter);
+        mNavigationSpinner.setSelection(mList);
+        mNavigationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 0) {
+                    showCreateCategoryDialog();
+                    return;
+                }
+                if(i==mList){
+                    return;
+                }
+                mList = i;
+                mCategory = l;
+                setSortingAndFilterToDefault();
+                mCursor = filter();
+                mCursor = sortWordList();
+                mAdapter.swapCursor(mCursor);
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private Cursor loadCategoryData(){
+        CategoryDataSource dataSource = new CategoryDataSource(getActivity());
+        Cursor cursor = dataSource.getAllCategories();
+        MatrixCursor extras = new MatrixCursor(cursor.getColumnNames());
+        extras.addRow(new String[]{"-1", "-1", "New List"});
+        Cursor[] cursors = { extras, cursor };
+        Cursor extendedCursor = new MergeCursor(cursors);
+        return  extendedCursor;
+    }
+
+    public void updateSpinner(){
+        mSpinnerAdapter.changeCursor(loadCategoryData());
+        mSpinnerAdapter.notifyDataSetChanged();
+    }
+
+    private void showCreateCategoryDialog(){
+        TextView title = Constant.createDialogTitle(getActivity(), "Create word list", getResources().getColor(R.color.color_accent));
+        LayoutInflater inflater = getLayoutInflater(null);
+        View view = inflater.inflate(R.layout.dialog_edit_text_layout, null);
+        final EditText input = (EditText) view.findViewById(R.id.et_dialog);
+        final AlertDialog  dialog = new AlertDialog.Builder(getActivity())
+                .setCustomTitle(title)
+                .setView(view)
+                .setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .create();
+        dialog.show();
+        Constant.setDialogDividerColor(getActivity(), dialog, getResources().getColor(R.color.color_accent));
+        Button createButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        createButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (input.getText().length() > 0) {
+                    Category category = new Category();
+                    category.setCategoryName(input.getText().toString());
+                    CategoryDataSource categoryDataSource = new CategoryDataSource(getActivity());
+                    if (categoryDataSource.isCategoryNameUsed(category.getCategoryName())) {
+                        // This name is used, show error message
+                        Toast.makeText(getActivity(), "This name is used, please enter another name", Toast.LENGTH_LONG).show();
+                        mNavigationSpinner.setSelection(mList);
+                        return;
+                    }
+                    if (categoryDataSource.insert(category) != -1) {
+                        updateSpinner();
+                        mList = mNavigationSpinner.getCount() - 1;
+                        mNavigationSpinner.setSelection(mList);
+
+                        // start newly created word list
+                        mCategory = mNavigationSpinner.getSelectedItemId();
+                        setSortingAndFilterToDefault();
+                        mCursor = filter();
+                        mCursor = sortWordList();
+                        mAdapter.swapCursor(mCursor);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                    dialog.dismiss();
+                }
+            }
+        });
+        mNavigationSpinner.setSelection(mList);
     }
 
     private void showRenameListDialog(){
@@ -393,7 +516,7 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
                         return;
                     }
                     categoryDataSource.update(category);
-                    ((MainActivity) getActivity()).updateSpinner();
+                    updateSpinner();
                     dialog.dismiss();
                 }
             }
@@ -421,7 +544,7 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         Category.delete(getActivity(), mCategory);
-                                        ((MainActivity) getActivity()).updateSpinner();
+                                        updateSpinner();
                                     }
                                 })
                                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

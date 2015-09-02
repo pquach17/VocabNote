@@ -50,6 +50,7 @@ public class FlashCardActivity extends ActionBarActivity implements AnimationLis
 		createCardLayout();	
 		
 		mTextViewWord = (TextView) findViewById(R.id.tv_word);
+
 		mTextViewDefinition = (TextView) findViewById(R.id.tv_def);
 		
 		//--------Handle ViewAnimator control------------
@@ -63,10 +64,10 @@ public class FlashCardActivity extends ActionBarActivity implements AnimationLis
 				flipTransition(mViewAnimator, FlipDirection.RIGHT_LEFT);
 			}
 		});
-		
+		this.InitializeArrays(); // Loads data into mWordArray
 		//------Initialize variables after activity reloads----------
 		if(savedInstanceState == null){
-			this.InitializeArrays(); // Loads data into mWordArray and initializes mWordIdArray
+			mWordIdArray = new ArrayList<Integer>();
 			mIsWordShowing = true; // if mIsWordShowing = false, it means definition is showing
 			if(!mWordArray.isEmpty()){
 				mIsOver = false;
@@ -102,7 +103,22 @@ public class FlashCardActivity extends ActionBarActivity implements AnimationLis
 					}	
 				}
 			}
+			if(mWordArray.isEmpty()){
+				mTextViewWord.setClickable(true);
+				mTextViewWord.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_action_refresh,	0, 0);
+				mTextViewWord.setTextSize((float)16);
+				mTextViewWord.setText(R.string.str_flash_card_retry_button_decs);
+				mTextViewWord.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						//
+						finish();
+						startActivity(getIntent());				}
+				});
+			}
 		}
+
 	}
 	
 	@Override
@@ -112,16 +128,9 @@ public class FlashCardActivity extends ActionBarActivity implements AnimationLis
 		savedInstanceState.putBoolean("mIsOver", mIsOver);
 		savedInstanceState.putInt("mCurrentCard", mViewAnimator.getDisplayedChild());
 	}
-/*
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.flash_card_activity, menu);
-		return true;
-	}*/
-	
+
 	protected void InitializeArrays(){
-		mWordIdArray = new ArrayList<Integer>();
+
 		// Load data
 		WordDataSource wordds = new WordDataSource(this);
 		mWordArray = wordds.getWordArray(mList);
@@ -212,10 +221,10 @@ public class FlashCardActivity extends ActionBarActivity implements AnimationLis
 			mTextViewWord.setTextSize((float)16);
 			mTextViewWord.setText(R.string.str_flash_card_retry_button_decs);
 			mTextViewWord.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
-					//  
+					//
 					finish();
 					startActivity(getIntent());				}
 			});

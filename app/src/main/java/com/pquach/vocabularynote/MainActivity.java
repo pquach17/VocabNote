@@ -77,8 +77,6 @@ android.support.v4.app.FragmentManager.OnBackStackChangedListener{
 		setContentView(R.layout.activity_main);
 
         mToolBar = (Toolbar) findViewById(R.id.toolbar);
-        mNavigationSpinner = (Spinner) findViewById(R.id.spinner_nav);
-        initNavigationSpinner();
 
         setSupportActionBar(mToolBar);
         shouldDisplayHomeUp();
@@ -87,17 +85,12 @@ android.support.v4.app.FragmentManager.OnBackStackChangedListener{
         getSupportFragmentManager().addOnBackStackChangedListener(this);
 
         if(savedInstanceState == null) {
-            mWorkFragment = WordFragment.newInstance((int)mNavigationSpinner.getSelectedItemId());
+            mWorkFragment = WordFragment.newInstance();
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.fragment_container, mWorkFragment, WordFragment.TAG)
                     .commit();
-        }else {
-            mList = savedInstanceState.getInt(Constant.ARG_CATEGORY);
-            mNavigationSpinner.setSelection(mList);
-           // mWorkFragment = (WordFragment) getSupportFragmentManager().findFragmentByTag(WordFragment.TAG);
         }
-
 	}
 
     @Override
@@ -155,56 +148,7 @@ android.support.v4.app.FragmentManager.OnBackStackChangedListener{
 		return super.onOptionsItemSelected(item);
 	}
 
-    private void initNavigationSpinner(){
-        Cursor cursor = loadCategoryData();
-        mSpinnerAdapter = new SimpleCursorAdapter(this,R.layout.spinner_textview, cursor,
-               new String[]{VobNoteContract.Category.COLUMN_NAME_CATEGORY_NAME}, new int[]{ R.id.spinner_textview}, 0);
-        mSpinnerAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item_custom);
-        mNavigationSpinner.setAdapter(mSpinnerAdapter);
-        mNavigationSpinner.setSelection(mList);
-        mNavigationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i == 0){
-                    showCreateCategoryDialog();
-                    //mNavigationSpinner.setSelection(mList);
-                    return;
-                }
-                mList = i;
-                Bundle args = new Bundle();
-                args.putLong(Constant.ARG_CATEGORY, l);
-                onFragmentInteraction(WordFragment.TAG, args);
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-    }
-
-    private Cursor loadCategoryData(){
-        CategoryDataSource dataSource = new CategoryDataSource(this);
-        Cursor cursor = dataSource.getAllCategories();
-        /*
-        if(cursor.getCount()<1){
-            // if no List exists, create a default List 1
-            Category category = new Category();
-            category.setCategoryName("List 1");
-            dataSource.insert(category);
-            cursor = dataSource.getAll();
-        }*/
-        MatrixCursor extras = new MatrixCursor(cursor.getColumnNames());
-        extras.addRow(new String[]{"-1", "-1", "New List"});
-        Cursor[] cursors = { extras, cursor };
-        Cursor extendedCursor = new MergeCursor(cursors);
-        return  extendedCursor;
-    }
-
-    public void updateSpinner(){
-        mSpinnerAdapter.changeCursor(loadCategoryData());
-        mSpinnerAdapter.notifyDataSetChanged();
-    }
 
     private void shouldDisplayHomeUp(){
         boolean canback = getSupportFragmentManager().getBackStackEntryCount()>0;
@@ -234,59 +178,7 @@ android.support.v4.app.FragmentManager.OnBackStackChangedListener{
 
     }
 
-    private void showCreateCategoryDialog(){
-        TextView title = Constant.createDialogTitle(this, "Create word list", getResources().getColor(R.color.color_accent));
-        LayoutInflater inflater = getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_edit_text_layout, null);
-        final EditText input = (EditText) view.findViewById(R.id.et_dialog);
-        final AlertDialog  dialog = new AlertDialog.Builder(this)
-                .setCustomTitle(title)
-                .setView(view)
-                .setPositiveButton("Create", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                })
-                .create();
-        dialog.show();
-        Constant.setDialogDividerColor(this, dialog, getResources().getColor(R.color.color_accent));
-        Button createButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        createButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (input.getText().length() > 0) {
-                    Category category = new Category();
-                    category.setCategoryName(input.getText().toString());
-                    CategoryDataSource categoryDataSource = new CategoryDataSource(getApplicationContext());
-                    if (categoryDataSource.isCategoryNameUsed(category.getCategoryName())) {
-                        // This name is used, show error message
-                        Toast.makeText(getApplicationContext(), "This name is used, please enter another name", Toast.LENGTH_LONG).show();
-                        mNavigationSpinner.setSelection(mList);
-                        return;
-                    }
-                    if (categoryDataSource.insert(category) != -1) {
-                        updateSpinner();
-                        mList = mNavigationSpinner.getCount() - 1;
-                        mNavigationSpinner.setSelection(mList);
-
-                        // start newly created word list
-                        Bundle args = new Bundle();
-                        args.putLong(Constant.ARG_CATEGORY, mNavigationSpinner.getSelectedItemId());
-                        onFragmentInteraction(WordFragment.TAG, args);
-                    }
-                    dialog.dismiss();
-                }
-            }
-        });
-        mNavigationSpinner.setSelection(mList);
-    }
 
     @Override
     public void onFragmentInteraction(String fragmentTag, Bundle args) {
@@ -295,7 +187,7 @@ android.support.v4.app.FragmentManager.OnBackStackChangedListener{
         switch (fragmentTag){
             // For the WordFragment is the first screen, we don't add it to the back stack
             case WordFragment.TAG:
-                fragment = new WordFragment().newInstance(args.getLong(Constant.ARG_CATEGORY));
+                fragment = new WordFragment().newInstance();
                 tag = WordFragment.TAG;
                 if(fragment!=null){
                     getSupportFragmentManager().beginTransaction()
