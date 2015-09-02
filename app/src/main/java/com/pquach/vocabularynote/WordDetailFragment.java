@@ -185,9 +185,10 @@ public class WordDetailFragment extends BaseFragment{
         wordds.close();
     }
     private void showDeleteDialog(){
+        TextView title = Constant.createDialogTitle(getActivity(), DELETE_DIALOG_TITLE, getResources().getColor(R.color.color_accent));
         AlertDialog deleteDlg = new AlertDialog.Builder(getActivity())
                                               .setMessage(DELETE_CONFIRM_MESSAGE)
-                                              .setTitle(DELETE_DIALOG_TITLE)
+                                              .setCustomTitle(title)
                                               .create();
         DialogInterface.OnClickListener dialogOnClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -206,6 +207,7 @@ public class WordDetailFragment extends BaseFragment{
         deleteDlg.setButton(DialogInterface.BUTTON_NEGATIVE,"No", dialogOnClickListener);
         deleteDlg.setButton(DialogInterface.BUTTON_POSITIVE,"Yes", dialogOnClickListener);
         deleteDlg.show();
+        Constant.setDialogDividerColor(getActivity(), deleteDlg, getResources().getColor(R.color.color_accent));
 
     }
 

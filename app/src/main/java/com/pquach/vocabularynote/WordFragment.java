@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -54,6 +55,11 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
     private final String ARG_ASCENDING = "mAscending";
     private final String ARG_CHECKED_SORT_CONDITION = "mCheckedSortCondition";
     private final String ARG_CHECKED_FILTER_CONDITIONS = "mCheckedFilterConditions";
+    private final String ARG_LIST = "mList";
+
+    // these two variables are used by showDeleteWordDialog function to determine what kind of contextual menu is calling
+    private final boolean ARG_CONTEXTUAL_ACTION_MODE = true;
+    private final boolean ARG_CONTEXTUAL_FLOATING_MENU = false;
 
     /**
      *  the selected word list (category) that will be displayed
@@ -127,9 +133,6 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(getArguments() != null){
-            mCategory = getArguments().getLong(Constant.ARG_CATEGORY);
-        }
         // register Option Menu to container activity
         setHasOptionsMenu(true);
 
@@ -139,6 +142,7 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
             mCheckedSortCondition = savedInstanceState.getInt(ARG_CHECKED_SORT_CONDITION);
             mCheckedFilterConditions = savedInstanceState.getBooleanArray(ARG_CHECKED_FILTER_CONDITIONS);
             mCategory = savedInstanceState.getLong(Constant.ARG_CATEGORY);
+            mList = savedInstanceState.getInt(ARG_LIST);
         }else{
             setSortingAndFilterToDefault();
         }
@@ -152,13 +156,16 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
         outState.putInt(ARG_CHECKED_SORT_CONDITION, mCheckedSortCondition);
         outState.putBooleanArray(ARG_CHECKED_FILTER_CONDITIONS, mCheckedFilterConditions);
         outState.putLong(Constant.ARG_CATEGORY, mCategory);
+        outState.putInt(ARG_LIST, mList);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_word, container, false);
-
+        if(savedInstanceState!=null){
+            int y=0;
+        }
         // Set up list navigation spinner
         mNavigationSpinner = (Spinner) getActivity().findViewById(R.id.spinner_nav);
         initNavigationSpinner();
@@ -173,7 +180,6 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
         String[] from = {VobNoteContract.Word.COLUMN_NAME_WORD, VobNoteContract.Word.COLUMN_NAME_TYPE};
         int[] to = {R.id.tv_list_row, R.id.tv_list_row_type};
         mAdapter = new SimpleCursorAdapter(getActivity(),R.layout.word_list_layout, mCursor, from, to, 0);
-
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
@@ -219,7 +225,7 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
                 public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                     switch (item.getItemId()){
                         case R.id.context_delete:
-                            showDeleteWordDialog(mode, mCABCheckedItems);
+                            showDeleteWordDialog(mode, mCABCheckedItems, ARG_CONTEXTUAL_ACTION_MODE);
                             return true;
                         default:
                             return false;
@@ -237,6 +243,8 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
             });
         }else {
             // Setup Contextual Floating Menu
+            registerForContextMenu(mListView);
+
         }
 
         // Set up Floating Action Button and add it to List View
@@ -303,6 +311,25 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
     }
 
     @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.context_menu_listview, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.context_delete:
+                showDeleteWordDialog(null, mCABCheckedItems, ARG_CONTEXTUAL_FLOATING_MENU);
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Bundle args = new Bundle();
         args.putLong(Constant.ARG_WORD_ID, id);
@@ -339,21 +366,35 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
         startActivity(intent);
     }
 
-    private void showDeleteWordDialog(final ActionMode mode, final ArrayList wordIds){
+    /**
+     *
+     * @param mode
+     * @param wordIds Array of word's id that will be deleted
+     * @param menuType True, if this is Contextual Action Mode. False, if this is Contextual Floating Menu
+     */
+    private void showDeleteWordDialog(final ActionMode mode, final ArrayList wordIds, final boolean menuType){
         TextView title = Constant.createDialogTitle(getActivity(), "Delete", getResources().getColor(R.color.color_accent));
+        String message;
+        if(menuType){
+            message = "Delete "+wordIds.size()+" word(s)?";
+        }else {
+            message = "Delete this word?";
+        }
         AlertDialog  dialog = new AlertDialog.Builder(getActivity())
                 .setCustomTitle(title)
-                .setMessage("Delete "+wordIds.size()+" word(s)?")
+                .setMessage(message)
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         WordDataSource wordDataSource = new WordDataSource(getActivity());
-                        for(int i=0;i< wordIds.size(); i++){
+                        for (int i = 0; i < wordIds.size(); i++) {
                             wordDataSource.delete(String.valueOf(wordIds.get(i)));
                         }
                         mAdapter.swapCursor(wordDataSource.getWordsInCategory(mCategory));
                         mAdapter.notifyDataSetChanged();
-                        mode.finish();
+                        if (menuType) {
+                            mode.finish();
+                        }
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -364,6 +405,7 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
                 })
                 .create();
         dialog.show();
+        Constant.setDialogDividerColor(getActivity(), dialog, getResources().getColor(R.color.color_accent));
 
     }
 
@@ -381,16 +423,16 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
                     showCreateCategoryDialog();
                     return;
                 }
-                if(i==mList){
-                    return;
+                if(i!=mList){
+                    mList = i;
+                    mCategory = l;
+                    setSortingAndFilterToDefault();
+                    mCursor = filter();
+                    mCursor = sortWordList();
+                    mAdapter.swapCursor(mCursor);
+                    mAdapter.notifyDataSetChanged();
                 }
-                mList = i;
-                mCategory = l;
-                setSortingAndFilterToDefault();
-                mCursor = filter();
-                mCursor = sortWordList();
-                mAdapter.swapCursor(mCursor);
-                mAdapter.notifyDataSetChanged();
+
             }
 
             @Override

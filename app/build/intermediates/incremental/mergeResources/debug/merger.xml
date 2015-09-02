@@ -1819,7 +1819,33 @@ available. Please contact the developer for assistance.</string><string msgid="6
         <item>Longman dictionary</item>
         <item>Merriam-Webster dictionary</item>
         <item>Ask user</item>
-    </string-array><string name="str_pref_dlgTitle">Select a dictionary</string><string name="str_action_flash_card">Flash card</string></file><file path="D:\Android Studio Projects\VocabNote\app\src\main\res\values-large\refs.xml" qualifiers="large-v4"><item name="fragment_word" type="layout">@layout/fragment_word_grid</item></file><file path="D:\Android Studio Projects\VocabNote\app\src\main\res\values-sw600dp\refs.xml" qualifiers="sw600dp-v13"><item name="fragment_word" type="layout">@layout/fragment_word_grid</item></file><file path="D:\Android Studio Projects\VocabNote\app\src\main\res\values-sw720dp-land\dimens.xml" qualifiers="sw720dp-land-v13"><dimen name="activity_horizontal_margin">128dp</dimen></file><file path="D:\Android Studio Projects\VocabNote\app\src\main\res\values-v11\styles.xml" qualifiers="v11"><style name="AppBaseTheme.ListRowSecondaryText" parent="@android:style/TextAppearance.Small">
+    </string-array><string name="str_pref_dlgTitle">Select a dictionary</string><string name="str_action_flash_card">Flash card</string></file><file path="D:\Android Studio Projects\VocabNote\app\src\main\res\values\styles.xml" qualifiers=""><style name="AppBaseTheme.InformationText" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/color_label_text</item>
+        <item name="android:gravity">center</item>
+    </style><style name="AppBaseTheme.DetailText" parent="android:style/TextAppearance.Medium">
+    </style><style name="AppBaseTheme.ListRowMainText" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">20sp</item>
+    </style><style name="AppBaseTheme.LabelText" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/color_label_text</item>
+    </style><style name="AppBaseTheme.ListRowSecondaryText" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">@color/color_list_secodary_row_text</item>
+        <item name="android:textStyle">italic</item>
+    </style><style name="AppBaseTheme.Spinner.Text" parent="android:style/TextAppearance.Medium">
+    </style><style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="android:textColorPrimary">@color/color_body_text</item>
+
+
+
+        <!-- style for Contextual Action Mode -->
+
+        <item name="windowActionModeOverlay">true</item>
+
+        <item name="actionModeBackground">@color/color_primary</item>
+    </style></file><file path="D:\Android Studio Projects\VocabNote\app\src\main\res\values-large\refs.xml" qualifiers="large-v4"><item name="fragment_word" type="layout">@layout/fragment_word_grid</item></file><file path="D:\Android Studio Projects\VocabNote\app\src\main\res\values-sw600dp\refs.xml" qualifiers="sw600dp-v13"><item name="fragment_word" type="layout">@layout/fragment_word_grid</item></file><file path="D:\Android Studio Projects\VocabNote\app\src\main\res\values-sw720dp-land\dimens.xml" qualifiers="sw720dp-land-v13"><dimen name="activity_horizontal_margin">128dp</dimen></file><file path="D:\Android Studio Projects\VocabNote\app\src\main\res\values-v11\styles.xml" qualifiers="v11"><style name="AppBaseTheme.ListRowSecondaryText" parent="@android:style/TextAppearance.Small">
         <item name="android:textColor">@color/color_list_secodary_row_text</item>
         <item name="android:textStyle">italic</item>
     </style><style name="AppBaseTheme.InformationText" parent="@android:style/TextAppearance.Medium">

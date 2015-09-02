@@ -5,7 +5,6 @@
         android:id="@+id/context_delete"
         android:title="@string/str_context_delete"
         android:icon="@drawable/ic_action_discard"
-        vocabnote:showAsAction="always"
-       />
+        vocabnote:showAsAction="ifRoom"/>
 
 </menu>

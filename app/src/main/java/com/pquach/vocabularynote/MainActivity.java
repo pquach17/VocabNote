@@ -96,7 +96,7 @@ android.support.v4.app.FragmentManager.OnBackStackChangedListener{
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(Constant.ARG_CATEGORY, mList);
+       // outState.putInt(Constant.ARG_CATEGORY, mList);
 
     }
 
@@ -134,14 +134,6 @@ android.support.v4.app.FragmentManager.OnBackStackChangedListener{
 		return super.onCreateOptionsMenu(menu);
 	}
 
-
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-	                                ContextMenuInfo menuInfo) {
-	    super.onCreateContextMenu(menu, v, menuInfo);
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.context_menu_listview, menu);
-	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){

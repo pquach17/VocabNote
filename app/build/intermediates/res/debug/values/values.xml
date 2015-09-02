@@ -409,6 +409,43 @@ available. Please contact the developer for assistance.</string>
     <!-- From: file:/D:/Android%20Studio%20Projects/VocabNote/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/values/values.xml -->
     <eat-comment/>
     <style name="Animation.AppCompat.DropDownUp" parent="Base.Animation.AppCompat.DropDownUp"/>
+    <!-- From: file:/D:/Android%20Studio%20Projects/VocabNote/app/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="android:textColorPrimary">@color/color_body_text</item>
+
+
+
+        <!-- style for Contextual Action Mode -->
+
+        <item name="windowActionModeOverlay">true</item>
+
+        <item name="actionModeBackground">@color/color_primary</item>
+    </style>
+    <style name="AppBaseTheme.DetailText" parent="android:style/TextAppearance.Medium">
+    </style>
+    <style name="AppBaseTheme.InformationText" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/color_label_text</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="AppBaseTheme.LabelText" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/color_label_text</item>
+    </style>
+    <style name="AppBaseTheme.ListRowMainText" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="AppBaseTheme.ListRowSecondaryText" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">@color/color_list_secodary_row_text</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+    <style name="AppBaseTheme.Spinner.Text" parent="android:style/TextAppearance.Medium">
+    </style>
+    <!-- From: file:/D:/Android%20Studio%20Projects/VocabNote/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.0.0/res/values/values.xml -->
+    <eat-comment/>
     <style name="Base.Animation.AppCompat.DropDownUp" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/abc_grow_fade_in_from_bottom</item>
         <item name="android:windowExitAnimation">@anim/abc_shrink_fade_out_from_bottom</item>
