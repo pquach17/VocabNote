@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="banner_ad_unit_id">ca-app-pub-2672530675112159/1622600426</string>
     <!-- font -->
     <string name="roboto">Roboto</string>
     

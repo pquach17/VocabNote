@@ -1,11 +1,16 @@
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".WordDetailActivity">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_above="@+id/adView">
 
     <include layout="@layout/toolbar"
         android:layout_width="match_parent"
@@ -18,4 +23,15 @@
         android:gravity="center">
     </FrameLayout>
 
-</LinearLayout><!-- From: file:/D:/Android%20Studio%20Projects/VocabNote/app/src/main/res/layout/activity_main.xml -->
+</LinearLayout>
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="#000000"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id">
+    </com.google.android.gms.ads.AdView>
+</RelativeLayout><!-- From: file:/D:/Android%20Studio%20Projects/VocabNote/app/src/main/res/layout/activity_main.xml -->

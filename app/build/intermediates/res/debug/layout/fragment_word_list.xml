@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.pquach.vocabularynote.WordFragment">
 
-
     <ListView android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
@@ -26,4 +25,5 @@
         android:layout_height="match_parent" android:gravity="center" />
 
 </FrameLayout>
+
 <!-- From: file:/D:/Android%20Studio%20Projects/VocabNote/app/src/main/res/layout/fragment_word_list.xml -->

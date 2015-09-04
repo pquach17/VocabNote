@@ -8,8 +8,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.Surface;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.FrameLayout;
@@ -17,6 +19,9 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewAnimator;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.pquach.vocabularynote.R;
 import com.tekle.oss.android.animation.AnimationFactory;
 import com.tekle.oss.android.animation.AnimationFactory.FlipDirection;
@@ -25,6 +30,7 @@ import com.tekle.oss.android.animation.AnimationFactory.FlipDirection;
 
 public class FlashCardActivity extends ActionBarActivity implements AnimationListener{
 
+	AdView mAdView;
 	ViewAnimator mViewAnimator;
 	TextView mTextViewWord;
 	TextView mTextViewDefinition;
@@ -43,6 +49,25 @@ public class FlashCardActivity extends ActionBarActivity implements AnimationLis
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_flash_card);
+
+		// Get device's roation
+		Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
+		int orientation = display.getRotation();
+
+		// if phone did not rotate to landscape, enable AdMob. Otherwise, don't show ads
+		mAdView = (AdView) findViewById(R.id.adView);
+		if(orientation != Surface.ROTATION_90 && orientation != Surface.ROTATION_270){
+			// Set up AdMob
+			AdRequest adRequest = new AdRequest.Builder()
+					.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+					.addTestDevice("70E5E5FB9EF2BBFFFBA6699E35383E53")
+					.build();
+			mAdView.loadAd(adRequest);
+		}else {
+			RelativeLayout mRootContainer = (RelativeLayout) findViewById(R.id.flashcard_root_container);
+			mRootContainer.removeView(mAdView);
+		}
+
 
 		if(getIntent().hasExtra(Constant.ARG_CATEGORY))
 			mList = getIntent().getLongExtra(Constant.ARG_CATEGORY, 0);

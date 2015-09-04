@@ -43,6 +43,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,6 +78,13 @@ android.support.v4.app.FragmentManager.OnBackStackChangedListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("70E5E5FB9EF2BBFFFBA6699E35383E53")
+                .build();
+        mAdView.loadAd(adRequest);
 
         mToolBar = (Toolbar) findViewById(R.id.toolbar);
 

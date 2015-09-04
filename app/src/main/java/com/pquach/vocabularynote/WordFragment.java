@@ -32,6 +32,9 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.melnykov.fab.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -163,9 +166,7 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_word, container, false);
-        if(savedInstanceState!=null){
-            int y=0;
-        }
+
         // Set up list navigation spinner
         mNavigationSpinner = (Spinner) getActivity().findViewById(R.id.spinner_nav);
         initNavigationSpinner();

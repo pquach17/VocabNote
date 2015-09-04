@@ -34,16 +34,16 @@ public final class R {
 		public static final int normal = 0x7f0b000a;
 	}
 	public static final class string {
-		public static final int define_FloatingActionButton = 0x7f0d0036;
-		public static final int library_FloatingActionButton_author = 0x7f0d0038;
-		public static final int library_FloatingActionButton_authorWebsite = 0x7f0d0039;
-		public static final int library_FloatingActionButton_isOpenSource = 0x7f0d003a;
-		public static final int library_FloatingActionButton_libraryDescription = 0x7f0d003b;
-		public static final int library_FloatingActionButton_libraryName = 0x7f0d003c;
-		public static final int library_FloatingActionButton_libraryVersion = 0x7f0d003d;
-		public static final int library_FloatingActionButton_libraryWebsite = 0x7f0d003e;
-		public static final int library_FloatingActionButton_licenseId = 0x7f0d003f;
-		public static final int library_FloatingActionButton_repositoryLink = 0x7f0d0040;
+		public static final int define_FloatingActionButton = 0x7f0d0037;
+		public static final int library_FloatingActionButton_author = 0x7f0d0039;
+		public static final int library_FloatingActionButton_authorWebsite = 0x7f0d003a;
+		public static final int library_FloatingActionButton_isOpenSource = 0x7f0d003b;
+		public static final int library_FloatingActionButton_libraryDescription = 0x7f0d003c;
+		public static final int library_FloatingActionButton_libraryName = 0x7f0d003d;
+		public static final int library_FloatingActionButton_libraryVersion = 0x7f0d003e;
+		public static final int library_FloatingActionButton_libraryWebsite = 0x7f0d003f;
+		public static final int library_FloatingActionButton_licenseId = 0x7f0d0040;
+		public static final int library_FloatingActionButton_repositoryLink = 0x7f0d0041;
 	}
 	public static final class styleable {
 		public static final int[] FloatingActionButton = { 0x7f01002c, 0x7f01002d, 0x7f01002e, 0x7f01002f, 0x7f010030, 0x7f010031 };
