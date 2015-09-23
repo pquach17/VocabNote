@@ -8,33 +8,33 @@ package com.melnykov.fab;
 
 public final class R {
 	public static final class attr {
-		public static final int fab_colorDisabled = 0x7f01002f;
-		public static final int fab_colorNormal = 0x7f01002d;
-		public static final int fab_colorPressed = 0x7f01002c;
-		public static final int fab_colorRipple = 0x7f01002e;
-		public static final int fab_shadow = 0x7f010030;
-		public static final int fab_type = 0x7f010031;
+		public static final int fab_colorDisabled = 0x7f010034;
+		public static final int fab_colorNormal = 0x7f010032;
+		public static final int fab_colorPressed = 0x7f010031;
+		public static final int fab_colorRipple = 0x7f010033;
+		public static final int fab_shadow = 0x7f010035;
+		public static final int fab_type = 0x7f010036;
 	}
 	public static final class color {
-		public static final int material_blue_500 = 0x7f09002e;
+		public static final int material_blue_500 = 0x7f090034;
 	}
 	public static final class dimen {
-		public static final int fab_elevation_lollipop = 0x7f0a0032;
-		public static final int fab_scroll_threshold = 0x7f0a0033;
-		public static final int fab_shadow_size = 0x7f0a0034;
-		public static final int fab_size_mini = 0x7f0a0035;
-		public static final int fab_size_normal = 0x7f0a0036;
+		public static final int fab_elevation_lollipop = 0x7f0a0044;
+		public static final int fab_scroll_threshold = 0x7f0a0045;
+		public static final int fab_shadow_size = 0x7f0a0046;
+		public static final int fab_size_mini = 0x7f0a0047;
+		public static final int fab_size_normal = 0x7f0a0048;
 	}
 	public static final class drawable {
-		public static final int fab_shadow = 0x7f020052;
-		public static final int fab_shadow_mini = 0x7f020053;
+		public static final int fab_shadow = 0x7f020056;
+		public static final int fab_shadow_mini = 0x7f020057;
 	}
 	public static final class id {
 		public static final int mini = 0x7f0b0014;
 		public static final int normal = 0x7f0b000a;
 	}
 	public static final class string {
-		public static final int define_FloatingActionButton = 0x7f0d0037;
+		public static final int define_FloatingActionButton = 0x7f0d0038;
 		public static final int library_FloatingActionButton_author = 0x7f0d0039;
 		public static final int library_FloatingActionButton_authorWebsite = 0x7f0d003a;
 		public static final int library_FloatingActionButton_isOpenSource = 0x7f0d003b;
@@ -46,7 +46,7 @@ public final class R {
 		public static final int library_FloatingActionButton_repositoryLink = 0x7f0d0041;
 	}
 	public static final class styleable {
-		public static final int[] FloatingActionButton = { 0x7f01002c, 0x7f01002d, 0x7f01002e, 0x7f01002f, 0x7f010030, 0x7f010031 };
+		public static final int[] FloatingActionButton = { 0x7f010031, 0x7f010032, 0x7f010033, 0x7f010034, 0x7f010035, 0x7f010036 };
 		public static final int FloatingActionButton_fab_colorDisabled = 3;
 		public static final int FloatingActionButton_fab_colorNormal = 1;
 		public static final int FloatingActionButton_fab_colorPressed = 0;

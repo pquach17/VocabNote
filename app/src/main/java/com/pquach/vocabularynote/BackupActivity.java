@@ -104,11 +104,12 @@ public class BackupActivity extends BaseGoogleDriveActivity{
                     Date backupDate = new Date();
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
                     String fileTitle = dateFormat.format(backupDate);
-                    CustomPropertyKey filePropertyKey = new CustomPropertyKey("file",CustomPropertyKey.PRIVATE);
+                    CustomPropertyKey filePropertyKey = new CustomPropertyKey(Constant.CUSTOM_PROPERTY_KEY_FILE_STRING,CustomPropertyKey.PRIVATE);
                     MetadataChangeSet changeSetBuilder = new MetadataChangeSet.Builder()
                             .setMimeType("application/json")
-                            .setCustomProperty(filePropertyKey,"file")
-                            .setTitle(fileTitle+".json").build();
+                            .setCustomProperty(filePropertyKey, "file")
+                            .setTitle(fileTitle)
+                            .build();
                     IntentSender intentSender = Drive.DriveApi
                             .newCreateFileActivityBuilder()
                             .setInitialMetadata(changeSetBuilder)

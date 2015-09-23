@@ -15,11 +15,13 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.internal.widget.TintCheckBox;
-import android.support.v7.internal.widget.TintCheckedTextView;
-import android.support.v7.internal.widget.TintEditText;
-import android.support.v7.internal.widget.TintRadioButton;
-import android.support.v7.internal.widget.TintSpinner;
+
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatCheckBox;
+import android.support.v7.widget.AppCompatCheckedTextView;
+import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatRadioButton;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.ContextMenu;
@@ -49,7 +51,7 @@ import com.google.android.gms.ads.AdView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends ActionBarActivity implements BaseFragment.OnFragmentInteractionListener,
+public class MainActivity extends AppCompatActivity implements BaseFragment.OnFragmentInteractionListener,
 android.support.v4.app.FragmentManager.OnBackStackChangedListener{
 
     /**
@@ -87,8 +89,8 @@ android.support.v4.app.FragmentManager.OnBackStackChangedListener{
         mAdView.loadAd(adRequest);
 
         mToolBar = (Toolbar) findViewById(R.id.toolbar);
-
         setSupportActionBar(mToolBar);
+
         shouldDisplayHomeUp();
 
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
@@ -117,24 +119,18 @@ android.support.v4.app.FragmentManager.OnBackStackChangedListener{
         if (result != null) {
             return result;
         }
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            // If we're running pre-L, we need to 'inject' our tint aware Views in place of the
-            // standard framework versions
-            switch (name) {
-                case "EditText":
-                    return new TintEditText(this, attrs);
-                case "Spinner":
-                    return new TintSpinner(this, attrs);
-                case "CheckBox":
-                    return new TintCheckBox(this, attrs);
-                case "RadioButton":
-                    return new TintRadioButton(this, attrs);
-                case "CheckedTextView":
-                    return new TintCheckedTextView(this, attrs);
-            }
+        switch (name) {
+            case "EditText":
+                return new AppCompatEditText(this, attrs);
+            case "Spinner":
+                return new AppCompatSpinner(this, attrs);
+            case "CheckBox":
+                return new AppCompatCheckBox(this, attrs);
+            case "RadioButton":
+                return new AppCompatRadioButton(this, attrs);
+            case "CheckedTextView":
+                return new AppCompatCheckedTextView(this, attrs);
         }
-
         return null;
     }
 

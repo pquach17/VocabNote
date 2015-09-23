@@ -12,7 +12,7 @@
        android:id="@+id/layout_front_card"
        android:layout_width="match_parent"
        android:layout_height="match_parent"
-       android:background="#ED4747" 
+       android:background="@color/color_flash_card_front"
        android:gravity="center"
        android:layout_gravity="center">
     <TextView
@@ -36,7 +36,7 @@
        android:id="@+id/layout_back_card"
        android:layout_width="match_parent"
        android:layout_height="match_parent"
-       android:background="#229A22"
+       android:background="@color/color_flash_card_back"
        android:gravity="center"
        android:layout_gravity="center" >
 	<TextView 

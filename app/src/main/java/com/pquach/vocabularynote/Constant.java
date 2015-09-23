@@ -12,6 +12,11 @@ public final class Constant {
     public static final String ARG_WORD_ID = "com.pquach.vocabularynote.constant.wordid";
     public static final String ARG_CATEGORY = "com.pquach.vocabularynote.constant.categoryid";
 
+    /**
+     * Custom Property Key for filtering files in google drive
+     */
+    public static final String CUSTOM_PROPERTY_KEY_FILE_STRING = "vnote_json_ver_1";
+
     public static String capitalizeEachWord(String s){
         String[] temp = s.split(" ");
         String result = new String();

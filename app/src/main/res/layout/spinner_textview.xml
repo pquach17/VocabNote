@@ -3,8 +3,6 @@
     android:id="@+id/spinner_textview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:textAppearance="@style/AppBaseTheme.Spinner.Text"
-    android:textSize="20sp"
-    android:textColor="@color/color_white">
+    android:textAppearance="@style/AppBaseTheme.Spinner.Text">
 
 </TextView>

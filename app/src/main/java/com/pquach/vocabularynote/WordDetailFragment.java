@@ -1,23 +1,10 @@
 package com.pquach.vocabularynote;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.media.AudioManager;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,12 +12,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.util.Locale;
 
 /*
 /**
@@ -118,10 +102,12 @@ public class WordDetailFragment extends BaseFragment{
             tv_definition.setText(mWord.getDefinition());
             tv_example.setText(mWord.getExample());
             // set labels' visibility
+            /*
             if(mWord.getDefinition().length() > 0)
                 label_definition.setVisibility(View.VISIBLE);
             if(mWord.getExample().length() > 0)
                 label_example.setVisibility(View.VISIBLE);
+                */
         }
         return view;
     }
@@ -135,6 +121,7 @@ public class WordDetailFragment extends BaseFragment{
         spinner.setVisibility(View.INVISIBLE);
 
         activity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+        activity.getSupportActionBar().setLogo(null);
         //Set title
         String title = getActivity().getResources().getString(R.string.str_label_word_detail);
         activity.getSupportActionBar().setTitle(title);
@@ -185,10 +172,8 @@ public class WordDetailFragment extends BaseFragment{
         wordds.close();
     }
     private void showDeleteDialog(){
-        TextView title = Constant.createDialogTitle(getActivity(), DELETE_DIALOG_TITLE, getResources().getColor(R.color.color_accent));
         AlertDialog deleteDlg = new AlertDialog.Builder(getActivity())
                                               .setMessage(DELETE_CONFIRM_MESSAGE)
-                                              .setCustomTitle(title)
                                               .create();
         DialogInterface.OnClickListener dialogOnClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -207,7 +192,6 @@ public class WordDetailFragment extends BaseFragment{
         deleteDlg.setButton(DialogInterface.BUTTON_NEGATIVE,"No", dialogOnClickListener);
         deleteDlg.setButton(DialogInterface.BUTTON_POSITIVE,"Yes", dialogOnClickListener);
         deleteDlg.show();
-        Constant.setDialogDividerColor(getActivity(), deleteDlg, getResources().getColor(R.color.color_accent));
 
     }
 

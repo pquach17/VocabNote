@@ -132,7 +132,7 @@ public class RestoreActivity extends BaseGoogleDriveActivity {
             return;
         }
         // retrieve the results for the next page.
-        CustomPropertyKey customPropertyKey = new CustomPropertyKey("file", CustomPropertyKey.PRIVATE);
+        CustomPropertyKey customPropertyKey = new CustomPropertyKey(Constant.CUSTOM_PROPERTY_KEY_FILE_STRING, CustomPropertyKey.PRIVATE);
         Query query = new Query.Builder()
                 .addFilter(Filters.eq(SearchableField.TRASHED, Boolean.FALSE))
                 .addFilter(Filters.eq(customPropertyKey, "file"))

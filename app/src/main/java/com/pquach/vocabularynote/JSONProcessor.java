@@ -102,7 +102,7 @@ public class JSONProcessor {
             OutputStreamWriter osw = new OutputStreamWriter(outstr);
             String jsonString;
 
-            osw.write("<application/json version=1>\n");
+            osw.write("<application/json version=1 appname=vocabularynote>\n");
             jsonString = createJSONString(categories, words);
             if(jsonString==null){
                return false;
