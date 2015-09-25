@@ -4,12 +4,13 @@
    <item
        android:id="@+id/action_bar_btn_edit"
        android:title="@string/str_action_bar_edit"
-       android:icon="@drawable/ic_action_edit"
-       vocabnote:showAsAction="ifRoom"/>
+       android:icon="@drawable/ic_action_edit_white_48dp"
+       android:titleCondensed=""
+       vocabnote:showAsAction="ifRoom" />
         
    <item 
        android:id="@+id/action_bar_btn_delete"
        android:title="@string/str_action_bar_delete"
-       android:icon="@drawable/ic_action_discard"
+       android:icon="@drawable/ic_action_delete_white_48dp"
        vocabnote:showAsAction="ifRoom"/>
  </menu>

@@ -53,6 +53,7 @@ public class FlashCardActivity extends ActionBarActivity implements AnimationLis
 		int orientation = display.getRotation();
 
 		// if phone did not rotate to landscape, enable AdMob. Otherwise, don't show ads
+
 		mAdView = (AdView) findViewById(R.id.adView);
 		if(orientation != Surface.ROTATION_90 && orientation != Surface.ROTATION_270){
 			// Set up AdMob
@@ -65,6 +66,7 @@ public class FlashCardActivity extends ActionBarActivity implements AnimationLis
 			RelativeLayout mRootContainer = (RelativeLayout) findViewById(R.id.flashcard_root_container);
 			mRootContainer.removeView(mAdView);
 		}
+
 
 
 		if(getIntent().hasExtra(Constant.ARG_CATEGORY))

@@ -28,6 +28,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import com.melnykov.fab.FloatingActionButton;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import android.view.ActionMode;
 
@@ -48,7 +49,7 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
     private final String ARG_SORT_BY_WORD = "mSortByWord";
     private final String ARG_ASCENDING = "mAscending";
     private final String ARG_CHECKED_SORT_CONDITION = "mCheckedSortCondition";
-    private final String ARG_CHECKED_FILTER_CONDITIONS = "mCheckedFilterConditions";
+    private final String ARG_FILTER_ITEMS_CHECK_STATE = "mFilterItemsCheckState";
     private final String ARG_LIST = "mList";
 
     // these two variables are used by showDeleteWordDialog function to determine what kind of contextual menu is calling
@@ -105,10 +106,10 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
 
     /**
      * mCheckedSortCondition saves the currently checked item in the Sort dialog
-     * mCheckedFilterConditions[] saves the selected items in the Filter dialog
+     * mFilterItemsCheckState[] saves the check state of the Filter dialog's items
      */
     private int mCheckedSortCondition;
-    private boolean[] mCheckedFilterConditions;
+    private boolean[] mFilterItemsCheckState;
 
     /**
      * mCABCheckedItems saves checked items when in contextual action bar (CAB) mode
@@ -141,7 +142,7 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
             mSortByWord = savedInstanceState.getBoolean(ARG_SORT_BY_WORD);
             mAscending = savedInstanceState.getBoolean(ARG_ASCENDING);
             mCheckedSortCondition = savedInstanceState.getInt(ARG_CHECKED_SORT_CONDITION);
-            mCheckedFilterConditions = savedInstanceState.getBooleanArray(ARG_CHECKED_FILTER_CONDITIONS);
+            mFilterItemsCheckState = savedInstanceState.getBooleanArray(ARG_FILTER_ITEMS_CHECK_STATE);
             mCategory = savedInstanceState.getLong(Constant.ARG_CATEGORY);
             mList = savedInstanceState.getInt(ARG_LIST);
         }else{
@@ -153,9 +154,9 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(ARG_SORT_BY_WORD, mSortByWord);
-        outState.putBoolean(ARG_ASCENDING,mAscending);
+        outState.putBoolean(ARG_ASCENDING, mAscending);
         outState.putInt(ARG_CHECKED_SORT_CONDITION, mCheckedSortCondition);
-        outState.putBooleanArray(ARG_CHECKED_FILTER_CONDITIONS, mCheckedFilterConditions);
+        outState.putBooleanArray(ARG_FILTER_ITEMS_CHECK_STATE, mFilterItemsCheckState);
         outState.putLong(Constant.ARG_CATEGORY, mCategory);
         outState.putInt(ARG_LIST, mList);
     }
@@ -166,7 +167,7 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
         mSortByWord = false;
         mAscending = true;
         mCheckedSortCondition = 2;
-        mCheckedFilterConditions = new boolean[getResources().getStringArray(R.array.spinner_type).length];
+        mFilterItemsCheckState = new boolean[getResources().getStringArray(R.array.spinner_type).length];
     }
 
     @Override
@@ -641,36 +642,35 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
     }
 
     private void showFilterDialog(){
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final boolean[] oldState = mFilterItemsCheckState.clone();
+        final FilterDialogOnDismissListener dismissListener = new FilterDialogOnDismissListener();
+        dismissListener.setOldState(oldState);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Select type(s)")
-                .setMultiChoiceItems(R.array.spinner_type, mCheckedFilterConditions, new DialogInterface.OnMultiChoiceClickListener() {
+                .setMultiChoiceItems(R.array.spinner_type, mFilterItemsCheckState, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        test = 1;
 
                     }
                 })
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        // send clicked button to DismissListener
+                        dismissListener.setClickedButton(which);
+
+                        // refresh listview
                         mCursor = filter();
                         mCursor = sortWordList();
                         refreshListviewData(mCursor);
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
+                .setOnDismissListener(dismissListener)
                 .create();
         AlertDialog dialog = builder.show();
         // Set title divider color
 //        Constant.setDialogDividerColor(getActivity(), dialog, getResources().getColor(R.color.color_divider));
     }
-
 
 
     private Cursor sortWordList(){
@@ -702,8 +702,8 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
         ArrayList<String> selectedTypes = new ArrayList<String>();
         String[] arrTypes = getResources().getStringArray(R.array.spinner_type);
 
-        for(int i=0; i<mCheckedFilterConditions.length; i++) {
-            if (mCheckedFilterConditions[i]) {
+        for(int i=0; i<mFilterItemsCheckState.length; i++) {
+            if (mFilterItemsCheckState[i]) {
                 selectedTypes.add(arrTypes[i]);
             }
         }
@@ -741,6 +741,31 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
         return cur;
     }
 
+    public class FilterDialogOnDismissListener implements DialogInterface.OnDismissListener{
+        private int mClickedButton;
+        private boolean[] mOldState;
+
+        public FilterDialogOnDismissListener(){
+            mClickedButton = 0;
+            mOldState = new boolean[getResources().getStringArray(R.array.spinner_type).length];
+        }
+
+        public void setOldState(boolean[] oldState){
+            mOldState = oldState;
+        }
+
+        public void setClickedButton(int button){
+            mClickedButton =button;
+        }
+
+        @Override
+        public void onDismiss(DialogInterface dialog) {
+            if(mClickedButton != DialogInterface.BUTTON_POSITIVE){
+                mFilterItemsCheckState = mOldState;
+            }
+            dialog.dismiss();
+        }
+    }
     public interface OnFragmentInteractionListener{
         public void onFragmentInteraction(long id);
     }

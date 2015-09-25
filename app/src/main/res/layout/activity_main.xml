@@ -24,6 +24,7 @@
     </FrameLayout>
 
 </LinearLayout>
+
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_width="match_parent"

@@ -4,10 +4,10 @@
     <color name="color_primary">#4caf50</color>
     <color name="color_primary_light">#C8E6C9</color>
    <!-- <color name="color_accent">#e57373</color>-->
-    <color name="color_accent">#00E676</color>
+    <color name="color_accent">#00C853</color>
     <color name="color_primary_text">#505050</color>
     <color name="color_secondary_text">#727272</color>
-    <color name="color_divider">#B6B6B6</color>
+    <color name="color_divider">#adadad</color>
     <color name="color_primary_pressed">#f44336</color>
     <color name="color_label_text">@color/color_divider</color>
     <color name="color_list_secodary_row_text">#676767</color>

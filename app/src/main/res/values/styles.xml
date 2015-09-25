@@ -34,7 +34,7 @@
 
     <!-- Main word text -->
     <style name="AppBaseTheme.MainWord" parent="@android:style/TextAppearance">
-        <item name="android:textSize">28sp</item>
+        <item name="android:textSize">25sp</item>
     </style>
 
     <!-- Label text style -->
@@ -45,7 +45,8 @@
     </style>
 
     <!-- word detail text style -->
-    <style name="AppBaseTheme.DetailText" parent="android:style/TextAppearance.Medium">
+    <style name="AppBaseTheme.DetailText" parent="android:style/TextAppearance.Small">
+        <item name="android:textSize">15sp</item>
     </style>
 
     <!-- No content available text style -->

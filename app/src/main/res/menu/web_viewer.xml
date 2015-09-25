@@ -8,7 +8,7 @@ xmlns:vocabnote="http://schemas.android.com/apk/res-auto">
     <menu>
         <item
             android:id="@+id/action_refresh"
-            android:icon="@drawable/ic_refresh_gray_85px"
+            android:icon="@drawable/ic_action_refresh_48dp"
             vocabnote:showAsAction="never"
             android:title="@string/str_action_bar_refresh"/>
     </menu>

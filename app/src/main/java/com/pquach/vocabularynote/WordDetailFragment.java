@@ -120,11 +120,13 @@ public class WordDetailFragment extends BaseFragment{
         Spinner spinner = (Spinner) activity.findViewById(R.id.spinner_nav);
         spinner.setVisibility(View.INVISIBLE);
 
-        activity.getSupportActionBar().setDisplayShowTitleEnabled(true);
-        activity.getSupportActionBar().setLogo(null);
         //Set title
         String title = getActivity().getResources().getString(R.string.str_label_word_detail);
         activity.getSupportActionBar().setTitle(title);
+
+        activity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+        activity.getSupportActionBar().setLogo(null);
+
     }
 
     @Override
