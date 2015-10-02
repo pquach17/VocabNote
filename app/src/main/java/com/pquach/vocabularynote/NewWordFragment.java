@@ -1,20 +1,16 @@
 package com.pquach.vocabularynote;
 
-import android.app.Activity;
-import android.app.AlertDialog;
+
+import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-
-import android.support.v7.app.ActionBar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,7 +24,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import java.util.Locale;
 
 
@@ -37,17 +32,18 @@ import java.util.Locale;
  * Use the {@link NewWordFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NewWordFragment extends Fragment implements View.OnClickListener {
+public class NewWordFragment extends BaseFragment implements View.OnClickListener {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_WORD = "mWordId";
+
     public static final String NEW_WORD_TAG = "NewWordFragment";
     public static final String EDIT_WORD_TAG = "EditWordFragment";
     private final String DICTIONARY_DIALOG_TITLE = "Select a dictionary";
 
 
-    private String mWordId;
-    private OnNewWordFragmentListener mListener;
+
+    private long mWordId;
+    private long mCategoryId;
 
     protected EditText edit_word;
     protected EditText edit_definition ;
@@ -64,10 +60,11 @@ public class NewWordFragment extends Fragment implements View.OnClickListener {
      * @return A new instance of fragment NewWordFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static NewWordFragment newInstance(String wordId) {
+    public static NewWordFragment newInstance(long wordId, long categoryId) {
         NewWordFragment fragment = new NewWordFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_WORD, wordId);
+        args.putLong(Constant.ARG_WORD_ID, wordId);
+        args.putLong(Constant.ARG_CATEGORY, categoryId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -80,7 +77,8 @@ public class NewWordFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mWordId = getArguments().getString(ARG_WORD);
+            mWordId = getArguments().getLong(Constant.ARG_WORD_ID);
+            mCategoryId = getArguments().getLong(Constant.ARG_CATEGORY);
         }
         // register Option Menu to container activity
         setHasOptionsMenu(true);
@@ -104,58 +102,44 @@ public class NewWordFragment extends Fragment implements View.OnClickListener {
         spin_type.setAdapter(mAdapter);
 
         // Check if Edit mode is selected
-        // mWordId is not null only when user selected Edit, otherwise New Word was selected
-        if(mWordId != null){
+        // mWordId >= 0 only when user selected Edit, otherwise New Word was selected
+        if(mWordId >= 0){
             WordDataSource wordds = new WordDataSource(getActivity());
-            Word word = wordds.getWord(Integer.parseInt(mWordId));
-            edit_word.setText(word.getWord().toString());
-            edit_definition.setText(word.getDefinition());
-            edit_example.setText(word.getExample());
-            spin_type.setSelection(mAdapter.getPosition(word.getType()));
+            Word word = wordds.getWord(mWordId);
+            if(word != null){
+                edit_word.setText(word.getWord());
+                edit_definition.setText(word.getDefinition());
+                edit_example.setText(word.getExample());
+                spin_type.setSelection(mAdapter.getPosition(word.getType()));
 
-            //Set focus when user selects an EditText
-            edit_word.setSelectAllOnFocus(true);
-            edit_definition.setSelectAllOnFocus(true);
-            edit_example.setSelectAllOnFocus(true);
+                //Set focus when user selects an EditText
+                edit_word.setSelectAllOnFocus(true);
+                edit_definition.setSelectAllOnFocus(true);
+                edit_example.setSelectAllOnFocus(true);
+            }else {
+                Toast.makeText(getActivity(),"No such word in database", Toast.LENGTH_LONG).show();
+            }
         }
-
         return view;
-
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        MainActivity activity = (MainActivity) getActivity();
+        Spinner spinner = (Spinner) activity.findViewById(R.id.spinner_nav);
+        spinner.setVisibility(View.INVISIBLE);
+
+        activity.getSupportActionBar().setDisplayShowTitleEnabled(true);
+        activity.getSupportActionBar().setLogo(null);
         String title;
-        if(mWordId != null) // Edit mode
+        if(mWordId >= 0) // Edit mode
             title = getActivity().getResources().getString(R.string.str_label_word_edit);
         else // New word mode
             title = getActivity().getResources().getString(R.string.str_label_new_word);
-
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(title);
+        activity.getSupportActionBar().setTitle(title);
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnNewWordFragmentListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnNewWordFragmentListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
     @Override
     public void onPause() {
@@ -195,7 +179,10 @@ public class NewWordFragment extends Fragment implements View.OnClickListener {
                    @Override
                    public void onClick(DialogInterface dialog, int which) {
                        String[] dictionaryUrls = getResources().getStringArray(R.array.pref_dictionary_values);
-                       mListener.onNewWordFragmentInteraction(edit_word.getText().toString(), dictionaryUrls[which]);
+                       Bundle args = new Bundle();
+                       args.putString(DictionaryWebFragment.ARG_WORD, edit_word.getText().toString());
+                       args.putString(DictionaryWebFragment.ARG_URL, dictionaryUrls[which]);
+                       startFragment(DictionaryWebFragment.TAG, args);
                    }
                })
                .create().show();
@@ -221,10 +208,11 @@ public class NewWordFragment extends Fragment implements View.OnClickListener {
         word.setType(spin_type.getSelectedItem().toString());
         word.setDefinition(edit_definition.getText().toString());
         word.setExample(edit_example.getText().toString());
-        WordDataSource wordds = new WordDataSource(getActivity());
-        if(mWordId != null){
+        word.setCategory(mCategoryId);
+        WordDataSource wordds =  new WordDataSource(getActivity());
+        if(mWordId >= 0){
             // In Edit mode
-            word.setId(Integer.parseInt(mWordId));
+            word.setId(mWordId);
             if(wordds.update(word)>=1){
                 return true;
             }
@@ -233,16 +221,19 @@ public class NewWordFragment extends Fragment implements View.OnClickListener {
             return true;
         }
         return false;
-
     }
 
     private String getDictionary(){
+        /*
         String dictionary = null;
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         dictionary = sharedPref.getString(SettingsActivity.KEY_PREF_DICTIONARY, "");
         if(dictionary.equals("null")){
             return null;
-        }
+        }*/
+        String dictionary;
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        dictionary = sharedPref.getString(SettingsActivity.KEY_PREF_DICTIONARY, null);
         return dictionary;
     }
 
@@ -287,11 +278,14 @@ public class NewWordFragment extends Fragment implements View.OnClickListener {
         int networkAvailability = checkNetWorkAvailability();
         String dictionaryUrl = getDictionary();
         if(networkAvailability == 1){ // if there is network available
-            if(edit_word != null && edit_word.getText().length()>0 && mListener != null){
-                if(dictionaryUrl == null){
+            if(edit_word != null && edit_word.getText().length()>0){
+                if(dictionaryUrl.equals("null")){
                    showDictionaryDialog();
                 }else{
-                   mListener.onNewWordFragmentInteraction(edit_word.getText().toString(), dictionaryUrl);
+                    Bundle args = new Bundle();
+                    args.putString(DictionaryWebFragment.ARG_WORD, edit_word.getText().toString());
+                    args.putString(DictionaryWebFragment.ARG_URL, dictionaryUrl);
+                    startFragment(DictionaryWebFragment.TAG, args);
                 }
             }
             else{
@@ -313,7 +307,4 @@ public class NewWordFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public interface OnNewWordFragmentListener{
-        public void onNewWordFragmentInteraction(String word, String url);
-    }
 }

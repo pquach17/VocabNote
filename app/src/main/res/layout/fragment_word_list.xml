@@ -21,7 +21,13 @@
         fab:fab_colorPressed="@color/color_primary_pressed"
         fab:fab_colorRipple="@color/ripple" />
 
-    <TextView android:id="@android:id/empty" android:layout_width="match_parent"
-        android:layout_height="match_parent" android:gravity="center" />
+    <TextView android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textAppearance="@style/AppBaseTheme.InformationText"
+        android:text="@string/str_emty_view_text"/>
 
 </FrameLayout>
+

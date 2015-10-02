@@ -5,12 +5,13 @@ import java.util.Comparator;
 
 public class Word {
 	/*--------PROPERTIES----------*/
-	private int mId;
+	private long mId;
 	private String mWord;
 	private String mType;
 	private String mDefinition;
 	//String mTranslation;
 	private String mExample;
+	private long mCategory;
 	//Date mCreatedDate;
 	
 	
@@ -18,17 +19,17 @@ public class Word {
 	public Word(){
 		
 	}
-	
-	public int getId(){
+    public Word(String word){
+        mWord = word;
+    }
+	public long getId(){
 		return mId;
 	}
-	public void setId(int value){
+	public void setId(long value){
 		mId = value;
 	}
 	
-	public Word(String word){
-		mWord = word;
-	}
+
 	
 	public String getWord(){
 		return mWord;
@@ -60,7 +61,15 @@ public class Word {
 	{
 		mExample = value;
 	}
-	
+
+	public long getCategory()
+	{
+		return mCategory;
+	}
+	public void setCategory(long value)
+	{
+		mCategory = value;
+	}
 	public static class WordComparator implements Comparator<Word>{
 		@Override
 		public int compare(Word lhs, Word rhs) {
@@ -73,7 +82,7 @@ public class Word {
 		@Override
 		public int compare(Word lhs, Word rhs) {
 			// TODO Auto-generated method stub
-			return lhs.getId() - rhs.getId();
+			return  (int)(lhs.getId() - rhs.getId());
 		}
 	}
 }

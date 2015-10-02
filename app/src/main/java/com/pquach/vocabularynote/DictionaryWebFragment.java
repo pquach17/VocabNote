@@ -1,12 +1,10 @@
 package com.pquach.vocabularynote;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.webkit.WebViewFragment;
 import android.widget.Toast;
 
 
@@ -28,8 +25,10 @@ import android.widget.Toast;
 public class DictionaryWebFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_WORD = "mWord";
-    private static final String ARG_URL = "mUrl";
+    public static final String ARG_WORD = "mWord";
+    public static final String ARG_URL = "mUrl";
+
+    public static final String TAG = "DictionaryWebFragment";
 
     // TODO: Rename and change types of parameters
     private String mWord;
@@ -98,10 +97,11 @@ public class DictionaryWebFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.v("WordDetailFragment", "onActivityCreated");
-
+        MainActivity activity = (MainActivity) getActivity();
+        activity.getSupportActionBar().setLogo(null);
         //Set title
         String title = getActivity().getResources().getString(R.string.str_label_dictionary);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle(title);
+        activity.getSupportActionBar().setTitle(title);
     }
 
     @Override

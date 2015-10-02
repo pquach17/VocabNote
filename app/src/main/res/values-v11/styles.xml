@@ -4,28 +4,80 @@
         Base application theme for API 11+. This theme completely replaces
         AppBaseTheme from res/values/styles.xml on API 11+ devices.
     -->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- API 11 theme customizations can go here. -->
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
-        <item name="android:textColorPrimary">@color/color_body_text</item>
+        <item name="android:textColorPrimary">@color/color_primary_text</item>
+
+        <!-- style for Contextual Action Mode -->
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:actionModeBackground">@color/color_primary</item>
+        <item name="actionModeBackground">@color/color_primary</item>
+
+        <!-- Apply style for AlertDialog -->
+        <item name="android:alertDialogTheme">@style/AppBaseTheme.AlertDialog</item>
+        <item name="alertDialogTheme">@style/AppBaseTheme.AlertDialog</item>
+
+        <item name="android:dialogTheme">@style/AppBaseTheme.AlertDialog</item>
+        <item name="dialogTheme">@style/AppBaseTheme.AlertDialog</item>
 
     </style>
 
+    <!-- Alert dialog style -->
+    <style name="AppBaseTheme.AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="android:windowTitleStyle">@style/AppBaseTheme.AlertDialog.Title</item>
+    </style>
+    <style name="AppBaseTheme.AlertDialog.Title">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+    </style>
+
+    <!-- Main word text -->
+    <style name="AppBaseTheme.MainWord" parent="@android:style/TextAppearance">
+        <item name="android:textSize">25sp</item>
+    </style>
 
     <!-- Label text style -->
-    <style name="AppBaseTheme.LabelText" parent="@android:style/TextAppearance.Medium">
+    <style name="AppBaseTheme.LabelText" parent="@android:style/TextAppearance.Small">
         <item name="android:textColor">@color/color_label_text</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- word detail text style -->
+    <style name="AppBaseTheme.DetailText" parent="android:style/TextAppearance.Small">
+        <item name="android:textSize">15sp</item>
+
     </style>
 
     <!-- No content available text style -->
-    <style name="AppBaseTheme.InformationText" parent="@android:style/TextAppearance.Medium">
-        <item name="android:textColor">@color/color_label_text</item>
+    <style name="AppBaseTheme.InformationText" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">@color/color_information_text</item>
+        <item name="android:typeface">sans</item>
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="AppBaseTheme.DetailText" parent="android:style/TextAppearance.Medium">
-
+    
+    <!-- spinner text style -->
+    <style name="AppBaseTheme.Spinner.Text" parent="android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/color_white</item>
+    </style>
+    <style name="AppBaseTheme.Spinner.DropDown" parent="android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/color_primary_text</item>
+        <item name="android:background">@color/color_white</item>
+    </style>
+    
+    <!-- list view text style -->
+    <style name="AppBaseTheme.ListRowMainText" parent="@android:style/TextAppearance.Medium">
+    </style>
+    <style name="AppBaseTheme.ListRowSecondaryText" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">@color/color_secondary_text</item>
+        <item name="android:textStyle">italic</item>
     </style>
 </resources>
