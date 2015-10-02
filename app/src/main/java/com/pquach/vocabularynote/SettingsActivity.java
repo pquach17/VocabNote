@@ -3,19 +3,12 @@ package com.pquach.vocabularynote;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceFragment;
-import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.internal.widget.TintCheckBox;
-import android.support.v7.internal.widget.TintCheckedTextView;
-import android.support.v7.internal.widget.TintEditText;
-import android.support.v7.internal.widget.TintRadioButton;
-import android.support.v7.internal.widget.TintSpinner;
+
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -24,7 +17,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SpinnerAdapter;
+
+import android.support.v7.widget.AppCompatCheckBox;
+import android.support.v7.widget.AppCompatCheckedTextView;
+import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatRadioButton;
+import android.support.v7.widget.AppCompatSpinner;
+
+import com.pquach.vocabularynote.extras.MaterialListPreference;
 
 
 /**
@@ -48,11 +48,11 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.preferences);
-		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-		ListPreference listPreference = (ListPreference) findPreference(KEY_PREF_DICTIONARY);
-		listPreference.setSummary(listPreference.getEntry());
+        addPreferencesFromResource(R.xml.preferences);
 
+		getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+		MaterialListPreference listPreference = ((MaterialListPreference)  findPreference(KEY_PREF_DICTIONARY));
+        listPreference.setSummary(listPreference.getEntry());
 	}
 
     @Override
@@ -86,14 +86,12 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             root.addView(content);
             root.addView(bar);
         }
-
         bar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-
     }
 
     @Override
@@ -103,24 +101,18 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         if (result != null) {
             return result;
         }
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            // If we're running pre-L, we need to 'inject' our tint aware Views in place of the
-            // standard framework versions
-            switch (name) {
-                case "EditText":
-                    return new TintEditText(this, attrs);
-                case "Spinner":
-                    return new TintSpinner(this, attrs);
-                case "CheckBox":
-                    return new TintCheckBox(this, attrs);
-                case "RadioButton":
-                    return new TintRadioButton(this, attrs);
-                case "CheckedTextView":
-                    return new TintCheckedTextView(this, attrs);
-            }
+        switch (name) {
+            case "EditText":
+                return new AppCompatEditText(this, attrs);
+            case "Spinner":
+                return new AppCompatSpinner(this, attrs);
+            case "CheckBox":
+                return new AppCompatCheckBox(this, attrs);
+            case "RadioButton":
+                return new AppCompatRadioButton(this, attrs);
+            case "CheckedTextView":
+                return new AppCompatCheckedTextView(this, attrs);
         }
-
         return null;
     }
 
@@ -129,6 +121,8 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 		 super.onSaveInstanceState(savedInstanceState);
 		 savedInstanceState.putString("DictionarySummary", mDictionarySummary);
 	}
+
+
 	
 	@SuppressWarnings("deprecation")
 	@Override

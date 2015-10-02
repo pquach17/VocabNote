@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:vocabnote="http://schemas.android.com/apk/res-auto" >
-    <item
-        android:id="@+id/action_refresh"
-        vocabnote:showAsAction="never"
-        android:title="@string/str_action_bar_refresh"/>
-
+xmlns:vocabnote="http://schemas.android.com/apk/res-auto">
+<item
+    android:id="@+id/empty"
+    android:icon="@drawable/ic_action_overflow"
+    vocabnote:showAsAction="always">
+    <menu>
+        <item
+            android:id="@+id/action_refresh"
+            android:icon="@drawable/ic_action_refresh_48dp"
+            vocabnote:showAsAction="never"
+            android:title="@string/str_action_bar_refresh"/>
+    </menu>
+</item>
 </menu>

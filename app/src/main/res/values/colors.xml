@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Color definitions  -->
-    <color name="color_primary">#388E3C</color>
-    <color name="color_primary_dark">#1B5E20</color>
+    <color name="color_primary_dark">#388e3c</color>
+    <color name="color_primary">#4caf50</color>
+    <color name="color_primary_light">#C8E6C9</color>
+   <!-- <color name="color_accent">#e57373</color>-->
     <color name="color_accent">#00C853</color>
-    <color name="color_primary_pressed">#1B5E20</color>
+    <color name="color_primary_text">#505050</color>
+    <color name="color_secondary_text">#727272</color>
+    <color name="color_divider">#adadad</color>
+    <color name="color_primary_pressed">#f44336</color>
+    <color name="color_label_text">@color/color_divider</color>
+    <color name="color_list_secodary_row_text">#676767</color>
     <color name="ripple">#1B5E20</color>
-    <color name="color_body_text">#606060</color>
-    <color name="color_label_text">#949494</color>
     <color name="color_white">#FFFFFF</color>
+    <color name="color_information_text">@color/color_divider</color>
 
+    <!-- Flash card colors -->
+    <color name="color_flash_card_front">#e74c3c</color>
+    <color name="color_flash_card_back">#2ecc71</color>
 </resources>

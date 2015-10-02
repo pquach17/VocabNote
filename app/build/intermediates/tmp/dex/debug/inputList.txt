@@ -1,5 +1,5 @@
 D:\Android Studio Projects\VocabNote\app\build\intermediates\classes\debug
-D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\support-annotations-22.0.0-da7f2683ae8e42cc5dece8b049c62f7a46b70966.jar
+D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\support-annotations-22.1.0-1f1636af605dabfaff88c2dc16eefb608847f170.jar
 D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-43e30a0e7eea247f358b55620cb2c1741a245227.jar
 D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-a29cbbf58bac0cc12c25aafbb83b24156b24dc83.jar
 D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-ed76fd2488466a056b7235bb92a0bad00f6ebbdb.jar
@@ -15,13 +15,13 @@ D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\cla
 D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-4cc6e2c0223d876598b0bad5570241d342459081.jar
 D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-de1a4cf44628d112ec5d5c03b4a0241ccb31114d.jar
 D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-eb0719ca004aec3023c3db90b55c9d886026b426.jar
-D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\internal_impl-22.0.0-9bb4cc2cd5974daea2d283c053cd65e0cd380114.jar
+D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\internal_impl-22.1.0-b7fa44d587d5fa1d90eb4f87f66db72c5b0fd4d4.jar
 D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-4cf35768cd4b6819e18a279c6fc333ed366a55a1.jar
 D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-8bd432069a754eb696ccbc4209d1c9570d20679b.jar
 D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-e86fa09db1efd8a807d6390f2fb0da963fe34ca3.jar
 D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-607f066c206c4f356244fa4bc62ad7d9dcbad29a.jar
 D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-fdf5e87f860e32bb43900d2149e61be4bb46bb83.jar
-D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-1731cd552b38ff25fe8323389eb104ea2ac920c5.jar
 D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-b1d5bb945cf358010b7c748eb9598e5366e55f3c.jar
 D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-bdafb6463ebb529417d55c0f0cacba2703e6ba60.jar
-D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-5d592a310e4ead4fb9919418b623a97dedee94b0.jar
+D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-59bca74a94cb87bf70919cae80f9a74c7c94c8cc.jar
+D:\Android Studio Projects\VocabNote\app\build\intermediates\pre-dexed\debug\classes-3896a60040fc762599b48e272de1c7acd9b6318c.jar

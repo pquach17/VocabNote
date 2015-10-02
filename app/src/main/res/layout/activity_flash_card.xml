@@ -1,13 +1,18 @@
-
-<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/flipper"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/flashcard_root_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+<ViewFlipper
+    android:id="@+id/flipper"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_above="@+id/adView">
    <RelativeLayout 
        android:id="@+id/layout_front_card"
        android:layout_width="match_parent"
        android:layout_height="match_parent"
-       android:background="#ED4747" 
+       android:background="@color/color_flash_card_front"
        android:gravity="center"
        android:layout_gravity="center">
     <TextView
@@ -31,7 +36,7 @@
        android:id="@+id/layout_back_card"
        android:layout_width="match_parent"
        android:layout_height="match_parent"
-       android:background="#229A22"
+       android:background="@color/color_flash_card_back"
        android:gravity="center"
        android:layout_gravity="center" >
 	<TextView 
@@ -45,3 +50,14 @@
    </RelativeLayout>
 </ViewFlipper>
 
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:background="#000000"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id">
+    </com.google.android.gms.ads.AdView>
+</RelativeLayout>
