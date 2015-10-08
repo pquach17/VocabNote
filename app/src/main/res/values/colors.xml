@@ -8,13 +8,13 @@
     <color name="color_primary_text">#505050</color>
     <color name="color_secondary_text">#727272</color>
     <color name="color_divider">#adadad</color>
-    <color name="color_primary_pressed">#f44336</color>
+    <color name="color_primary_pressed">#ff8a80</color>
     <color name="color_label_text">@color/color_divider</color>
     <color name="color_list_secodary_row_text">#676767</color>
     <color name="ripple">#1B5E20</color>
     <color name="color_white">#FFFFFF</color>
     <color name="color_information_text">@color/color_divider</color>
-
+    <color name="color_floating_button_normal">#f44336</color>
     <!-- Flash card colors -->
     <color name="color_flash_card_front">#e74c3c</color>
     <color name="color_flash_card_back">#2ecc71</color>

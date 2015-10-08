@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -17,7 +18,7 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
         android:src="@drawable/ic_action_new"
-        fab:fab_colorNormal="@color/color_primary"
+        fab:fab_colorNormal="@color/color_floating_button_normal"
         fab:fab_colorPressed="@color/color_primary_pressed"
         fab:fab_colorRipple="@color/ripple" />
 
