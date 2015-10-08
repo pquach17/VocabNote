@@ -1,6 +1,7 @@
 package com.pquach.vocabularynote;
 
 
+import com.melnykov.fab.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,9 +27,7 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
-import com.melnykov.fab.FloatingActionButton;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import android.view.ActionMode;
 
@@ -259,6 +258,7 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
 
         // Set up Floating Action Button and add it to List View
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -268,8 +268,10 @@ public class WordFragment extends BaseFragment implements AbsListView.OnItemClic
             }
         });
         fab.attachToListView(mListView);
+
         return view;
     }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
